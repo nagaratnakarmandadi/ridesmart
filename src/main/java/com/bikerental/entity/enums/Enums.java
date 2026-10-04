@@ -47,6 +47,7 @@ public class Enums {
         APPROVED,
         REJECTED,
         PAYMENT_PENDING,
+        PAYMENT_SUBMITTED,
         CONFIRMED,
         READY_FOR_PICKUP,
         ACTIVE,

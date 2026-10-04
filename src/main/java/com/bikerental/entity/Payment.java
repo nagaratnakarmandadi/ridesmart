@@ -37,6 +37,7 @@ public class Payment {
     @Column(nullable = false)
     private PaymentMethod paymentMethod;
 
+    @Column(unique = true, length = 60)
     private String transactionRefNumber;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +48,10 @@ public class Payment {
     private com.bikerental.entity.enums.Enums.PaymentType paymentType = com.bikerental.entity.enums.Enums.PaymentType.BOOKING_PAYMENT;
 
     private String recordedByUsername;
+
+    private String upiIdAtPayment;
+    private String upiMobileAtPayment;
+    private String businessNameAtPayment;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
@@ -87,6 +92,13 @@ public class Payment {
     public LocalDateTime getPaidAt() { return paidAt; }
     public void setPaidAt(LocalDateTime paidAt) { this.paidAt = paidAt; }
 
+    public String getUpiIdAtPayment() { return upiIdAtPayment; }
+    public void setUpiIdAtPayment(String upiIdAtPayment) { this.upiIdAtPayment = upiIdAtPayment; }
+    public String getUpiMobileAtPayment() { return upiMobileAtPayment; }
+    public void setUpiMobileAtPayment(String upiMobileAtPayment) { this.upiMobileAtPayment = upiMobileAtPayment; }
+    public String getBusinessNameAtPayment() { return businessNameAtPayment; }
+    public void setBusinessNameAtPayment(String businessNameAtPayment) { this.businessNameAtPayment = businessNameAtPayment; }
+
     public static Builder builder() { return new Builder(); }
 
     public static class Builder {
@@ -102,6 +114,9 @@ public class Payment {
         public Builder paymentStatus(PaymentStatus status) { p.setPaymentStatus(status); return this; }
         public Builder paymentType(com.bikerental.entity.enums.Enums.PaymentType type) { p.setPaymentType(type); return this; }
         public Builder recordedByUsername(String user) { p.setRecordedByUsername(user); return this; }
+        public Builder upiIdAtPayment(String upiId) { p.setUpiIdAtPayment(upiId); return this; }
+        public Builder upiMobileAtPayment(String mobile) { p.setUpiMobileAtPayment(mobile); return this; }
+        public Builder businessNameAtPayment(String name) { p.setBusinessNameAtPayment(name); return this; }
         public Builder notes(String notes) { p.setNotes(notes); return this; }
         public Builder paidAt(LocalDateTime d) { p.setPaidAt(d); return this; }
         public Payment build() { return p; }

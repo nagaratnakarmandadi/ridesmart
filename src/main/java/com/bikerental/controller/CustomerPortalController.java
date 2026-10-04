@@ -211,51 +211,60 @@ public class CustomerPortalController {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
 
-        Rental rental = rentalRepository.findByBookingId(bookingId).orElse(null);
-        BigDecimal paymentAmt = customAmount != null ? customAmount : booking.getEstimatedTotalAmount();
+        if (!booking.getCustomer().getId().equals(customer.getId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized booking access.");
+        }
 
+        Rental rental = rentalRepository.findByBookingId(bookingId).orElse(null);
+
+        // Server-side financial calculation: Ignore client-submitted amount
+        BigDecimal alreadyPaid = paymentRepository.sumPaidAmountByBookingId(bookingId);
+        BigDecimal finalBill = (rental != null && rental.getTotalFinalAmount() != null) ? rental.getTotalFinalAmount() : booking.getEstimatedTotalAmount();
+        BigDecimal serverCalculatedAmount = (paymentType == PaymentType.FINAL_BALANCE) 
+                ? finalBill.subtract(alreadyPaid) 
+                : booking.getEstimatedTotalAmount();
+
+        if (serverCalculatedAmount.compareTo(BigDecimal.ZERO) < 0) {
+            serverCalculatedAmount = BigDecimal.ZERO;
+        }
+
+        PaymentSettings settings = settingsRepository.findAll().stream().findFirst().orElseGet(PaymentSettings::new);
         String payRef = "PAY-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        PaymentStatus status = (method == PaymentMethod.CASH) ? PaymentStatus.CASH_PENDING : PaymentStatus.PAID;
+        PaymentStatus status = (method == PaymentMethod.CASH) ? PaymentStatus.CASH_PENDING : PaymentStatus.SUBMITTED;
 
         Payment payment = Payment.builder()
                 .paymentReference(payRef)
                 .customer(customer)
                 .booking(booking)
                 .rental(rental)
-                .amount(paymentAmt)
+                .amount(serverCalculatedAmount)
                 .paymentMethod(method)
                 .paymentType(paymentType)
-                .transactionRefNumber(txRef != null && !txRef.isBlank() ? txRef : (method == PaymentMethod.CASH ? "CASH-ON-HANDOVER" : "UPI-" + java.util.UUID.randomUUID().toString().substring(0, 6)))
+                .transactionRefNumber(txRef != null && !txRef.isBlank() ? txRef.trim() : (method == PaymentMethod.CASH ? "CASH-ON-HANDOVER" : "UPI-" + java.util.UUID.randomUUID().toString().substring(0, 6)))
                 .paymentStatus(status)
+                .upiIdAtPayment(settings.getUpiId())
+                .upiMobileAtPayment(settings.getUpiNumber())
+                .businessNameAtPayment(settings.getBusinessName())
                 .recordedByUsername(userDetails.getUsername())
                 .notes("Customer payment (" + paymentType + ") submitted via " + method)
                 .build();
 
-        paymentRepository.save(payment);
-
-        if (paymentType == PaymentType.FINAL_BALANCE) {
-            BigDecimal totalPaid = paymentRepository.sumPaidAmountByBookingId(bookingId);
-            BigDecimal finalBill = (rental != null && rental.getTotalFinalAmount() != null) ? rental.getTotalFinalAmount() : booking.getEstimatedTotalAmount();
-            if (totalPaid.compareTo(finalBill) >= 0) {
-                if (rental != null) {
-                    rental.setStatus(RentalStatus.COMPLETED);
-                    rentalRepository.save(rental);
-                }
-                booking.setStatus(BookingStatus.COMPLETED);
-                booking.getBike().setStatus(BikeStatus.AVAILABLE);
-                bookingRepository.save(booking);
-            }
-        } else {
-            if (method == PaymentMethod.UPI) {
-                booking.setStatus(BookingStatus.CONFIRMED);
-            } else {
-                booking.setStatus(BookingStatus.PAYMENT_PENDING);
-            }
-            bookingRepository.save(booking);
+        try {
+            paymentRepository.save(payment);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Payment submission failed: This UTR reference number (" + txRef + ") has already been submitted!");
+            return "redirect:/customer/payments/checkout/" + bookingId;
         }
 
-        redirectAttributes.addFlashAttribute("successMessage", "Payment processed! Reference: " + payRef);
-        return "redirect:/customer/payments/success/" + payment.getId();
+        if (paymentType == PaymentType.FINAL_BALANCE) {
+            redirectAttributes.addFlashAttribute("successMessage", "Remaining balance payment submitted! Waiting for Admin verification.");
+            return "redirect:/customer/bookings/confirm/" + bookingId;
+        } else {
+            booking.setStatus(BookingStatus.PAYMENT_SUBMITTED);
+            bookingRepository.save(booking);
+            redirectAttributes.addFlashAttribute("successMessage", "Payment UTR submitted successfully! Waiting for Admin verification.");
+            return "redirect:/customer/bookings/confirm/" + bookingId;
+        }
     }
 
     @GetMapping("/payments/success/{paymentId}")
