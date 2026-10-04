@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Active Rental Live Monitor - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5">
+        <div class="card-custom p-4 mb-4 bg-navy text-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="badge bg-success mb-2 px-3 py-1"><i class="bi bi-broadcast me-1"></i> TRIP ACTIVE</span>
+                    <h3 class="fw-bold mb-0">Active Rental Telemetry</h3>
+                </div>
+                <div class="text-end">
+                    <span class="text-slate-300 small">Rental Reference</span>
+                    <h4 class="fw-bold font-monospace text-cyan mb-0" th:text="${rental != null ? rental.rentalNumber : 'N/A'}">RNT-12345</h4>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${rental != null}" class="row g-4">
+            <!-- Rental Details Card -->
+            <div class="col-lg-6">
+                <div class="card-custom p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-scooter text-indigo me-2"></i> Vehicle Handover Details</h5>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <span class="text-muted small">Vehicle</span>
+                            <div class="fw-bold fs-5" th:text="${rental.bike.brand + ' ' + rental.bike.model}">Royal Enfield Classic</div>
+                            <div class="tiny text-muted" th:text="${'Reg: ' + rental.bike.registrationNumber}">KA-01-EQ-1234</div>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted small">Starting Odometer</span>
+                            <div class="fw-bold fs-5" th:text="${rental.startingOdometer + ' KM'}">12,500 KM</div>
+                            <div class="tiny text-muted">Handover Reading</div>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted small">Rental Start Time</span>
+                            <div class="fw-semibold text-dark" th:text="${#temporals.format(rental.actualStartTime, 'dd MMM yyyy, hh:mm a')}">25 Aug, 10:00 AM</div>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted small">Expected Return</span>
+                            <div class="fw-semibold text-dark" th:text="${#temporals.format(rental.expectedEndTime, 'dd MMM yyyy, hh:mm a')}">25 Aug, 10:00 PM</div>
+                        </div>
+                    </div>
+
+                    <!-- Live Countdown Timer Widget -->
+                    <div class="p-3 bg-navy text-white rounded-3 mb-4 d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="tiny text-slate-300">Rental Time Remaining</div>
+                            <div class="fw-bold fs-4 text-warning font-monospace" id="countdownTimer">Calculating...</div>
+                        </div>
+                        <i class="bi bi-clock-history fs-1 text-cyan"></i>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 border">
+                        <h6 class="fw-bold mb-2 text-indigo"><i class="bi bi-calculator me-1"></i> Included Plan Allowance</h6>
+                        <div class="d-flex justify-content-between mb-1 small">
+                            <span class="text-muted">Included Distance:</span>
+                            <strong th:text="${rental.bike.includedKm + ' KM'}">80 KM</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1 small">
+                            <span class="text-muted">Extra KM Charge:</span>
+                            <strong th:text="${'₹' + rental.bike.extraKmRate + ' / KM'}">₹3.00 / KM</strong>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted">Late Return Charge:</span>
+                            <strong th:text="${'₹' + rental.bike.lateHourlyRate + ' / Hour'}">₹50.00 / Hour</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GPS Live Telemetry Widget -->
+            <div class="col-lg-6">
+                <div class="card-custom p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill text-indigo me-2"></i> GPS Real-Time Location</h5>
+                    
+                    <div class="p-3 bg-navy text-white rounded-3 mb-4">
+                        <div class="row text-center g-2">
+                            <div class="col-4 border-end border-secondary">
+                                <div class="tiny text-slate-300">GPS Device ID</div>
+                                <div class="fw-bold font-monospace small text-cyan" th:text="${rental.bike.gpsDeviceId != null ? rental.bike.gpsDeviceId : 'SPEEDTRACK-GPS'}">GPS-RE-350</div>
+                            </div>
+                            <div class="col-4 border-end border-secondary">
+                                <div class="tiny text-slate-300">Live Speed</div>
+                                <div class="fw-bold fs-6" th:text="${gpsReading != null ? gpsReading.speed + ' km/h' : '0.0 km/h'}">0.0 km/h</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="tiny text-slate-300">Distance Travelled</div>
+                                <div class="fw-bold fs-6 text-warning" th:text="${gpsReading != null ? gpsReading.cumulativeDistanceKm + ' KM' : '15.4 KM'}">15.4 KM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ratio ratio-16x9 rounded-3 overflow-hidden border">
+                        <iframe src="https://maps.google.com/maps?q=17.4401,78.3489&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <div class="text-center mt-3 text-muted small">
+                        <i class="bi bi-shield-check text-success me-1"></i> Continuous GPS tracking enabled for vehicle protection.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${rental != null}" class="card-custom p-5 text-center">
+            <i class="bi bi-scooter text-muted fs-1 mb-3"></i>
+            <h4 class="fw-bold">No Active Rental Found</h4>
+            <p class="text-muted small mb-4">You do not currently have any active rental in progress.</p>
+            <a th:href="@{/bikes}" class="btn btn-indigo px-4 py-2 fw-bold">Browse Fleet & Book</a>
+        </div>
+    </div>
+
+    <!-- Active Timer Countdown Script -->
+    <script th:inline="javascript" th:if="${rental != null}">
+        document.addEventListener("DOMContentLoaded", function() {
+            const returnTimeStr = /*[[${rental.expectedEndTime}]]*/ '';
+            const timerElem = document.getElementById("countdownTimer");
+            if (returnTimeStr && timerElem) {
+                const returnTime = new Date(returnTimeStr).getTime();
+                function updateTimer() {
+                    const now = new Date().getTime();
+                    const diff = returnTime - now;
+                    if (diff <= 0) {
+                        timerElem.textContent = "OVERDUE (Late fees apply)";
+                        timerElem.classList.remove("text-warning");
+                        timerElem.classList.add("text-danger");
+                    } else {
+                        const hours = Math.floor(diff / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                        timerElem.textContent = String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m " + String(seconds).padStart(2, '0') + "s";
+                    }
+                }
+                updateTimer();
+                setInterval(updateTimer, 1000);
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

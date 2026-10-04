@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Login</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-md">
+        <div class="card-custom p-4 p-md-5">
+            <div class="text-center mb-4">
+                <span class="badge bg-indigo-subtle text-indigo px-3 py-1 rounded-pill fw-bold mb-2 small">
+                    <i class="bi bi-shield-lock-fill me-1"></i> ACCOUNT AUTHENTICATION
+                </span>
+                <h3 class="fw-bold text-navy mb-1 fs-2">Welcome Back</h3>
+                <p class="text-muted small">Sign in to continue to your RideSmart account.</p>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-dark">Email Address or Mobile Number *</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-indigo border"><i class="bi bi-person"></i></span>
+                        <input type="text" name="username" class="form-control form-control-custom" placeholder="admin@bikerental.com / 9876543210" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label small fw-semibold text-dark mb-0">Password *</label>
+                        <a th:href="@{/forgot-password}" class="text-indigo text-decoration-none tiny fw-semibold">Forgot Password?</a>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-indigo border"><i class="bi bi-key"></i></span>
+                        <input type="password" id="loginPassword" name="password" class="form-control form-control-custom" placeholder="••••••••" required>
+                        <button class="btn btn-outline-secondary bg-light border" type="button" id="togglePasswordBtn">
+                            <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6 mb-3">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Log In
+                </button>
+            </form>
+
+            <div class="p-3 bg-light rounded-3 border text-center mb-3">
+                <span class="small text-muted d-block fw-semibold mb-1">Quick Demo Credentials:</span>
+                <div class="d-flex justify-content-around small">
+                    <div><span class="text-indigo fw-bold">Admin:</span> admin@bikerental.com / admin123</div>
+                </div>
+                <div class="d-flex justify-content-around small mt-1">
+                    <div><span class="text-success fw-bold">Customer:</span> john@example.com / customer123</div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <span class="text-muted small">Don't have an account? </span>
+                <a th:href="@{/register}" class="text-indigo text-decoration-none fw-bold">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Visibility Toggle Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordInput = document.getElementById("loginPassword");
+            const toggleBtn = document.getElementById("togglePasswordBtn");
+            const toggleIcon = document.getElementById("togglePasswordIcon");
+
+            if (toggleBtn && passwordInput && toggleIcon) {
+                toggleBtn.addEventListener("click", function() {
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                        toggleIcon.classList.remove("bi-eye-slash");
+                        toggleIcon.classList.add("bi-eye");
+                    } else {
+                        passwordInput.type = "password";
+                        toggleIcon.classList.remove("bi-eye");
+                        toggleIcon.classList.add("bi-eye-slash");
+                    }
+                });
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

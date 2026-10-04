@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Bike Details & Booking - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Light Background Page Hero Banner -->
+    <section class="page-hero-light py-4 mb-4">
+        <div class="container">
+            <span class="eyebrow-badge">
+                <i class="bi bi-calendar-check"></i> VEHICLE RESERVATION
+            </span>
+            <h1 class="hero-title-dark fs-2 mb-1">Book Your Ride</h1>
+            <p class="hero-subtitle-dark fs-6">Review your bike, rental period, pricing and booking details before confirming.</p>
+        </div>
+    </section>
+
+    <div class="container pb-5">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none text-muted">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/bikes}" class="text-decoration-none text-muted">Fleet</a></li>
+                <li class="breadcrumb-item active fw-semibold" aria-current="page" th:text="${bike.brand + ' ' + bike.model}">Bike Details</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <!-- Bike Specifications & Image Gallery -->
+            <div class="col-lg-7">
+                <div class="card-custom mb-4">
+                    <div class="bike-img-container" style="height: 380px;">
+                        <img th:src="${bike.imageUrl != null ? bike.imageUrl : 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800'}" th:alt="${bike.brand}">
+                        <span class="position-absolute top-0 end-0 m-4 badge-status"
+                              th:classappend="${bike.status.name() == 'AVAILABLE' ? 'badge-available' : 'badge-rented'}"
+                              th:text="${bike.status}">AVAILABLE</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge bg-indigo-subtle text-indigo px-3 py-1 rounded-pill fw-bold" th:text="${bike.fuelType + ' • ' + bike.manufacturingYear}">Petrol • 2023</span>
+                            <span class="text-muted small"><i class="bi bi-star-fill text-warning me-1"></i> 4.9 Rating</span>
+                        </div>
+                        <h2 class="fw-bold mb-2" th:text="${bike.brand + ' ' + bike.model}">Royal Enfield Classic 350</h2>
+                        <p class="text-muted mb-4" th:text="${bike.description}">Well-maintained motorcycle equipped with live GPS tracking, complimentary helmet, and full fuel tank capacity.</p>
+
+                        <h5 class="fw-bold mb-3"><i class="bi bi-sliders text-indigo me-2"></i> Vehicle Specifications</h5>
+                        <div class="row g-3 text-center mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <i class="bi bi-speedometer text-indigo fs-4 mb-1 d-block"></i>
+                                    <div class="fw-bold" th:text="${bike.engineCapacity + ' cc'}">349 cc</div>
+                                    <div class="tiny text-muted">Engine</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <i class="bi bi-fuel-pump text-indigo fs-4 mb-1 d-block"></i>
+                                    <div class="fw-bold" th:text="${bike.currentFuelLevel}">FULL</div>
+                                    <div class="tiny text-muted">Fuel Level</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <i class="bi bi-signpost-split text-indigo fs-4 mb-1 d-block"></i>
+                                    <div class="fw-bold" th:text="${bike.currentOdometer + ' KM'}">12,500 KM</div>
+                                    <div class="tiny text-muted">Odometer</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <i class="bi bi-broadcast text-indigo fs-4 mb-1 d-block"></i>
+                                    <div class="fw-bold text-success">ACTIVE</div>
+                                    <div class="tiny text-muted">GPS Telemetry</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold mb-3"><i class="bi bi-shield-check text-indigo me-2"></i> Included Benefits</h5>
+                        <div class="row g-2 text-muted small">
+                            <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i> 1 Clean Sanitized Helmet Included</div>
+                            <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i> Comprehensive Insurance Coverage</div>
+                            <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i> 24/7 Roadside Assistance</div>
+                            <div class="col-md-6"><i class="bi bi-check-circle-fill text-success me-2"></i> Digital Rental Agreement</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form Card -->
+            <div class="col-lg-5">
+                <div class="card-custom p-4 sticky-top" style="top: 85px;">
+                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                        <div>
+                            <span class="text-muted small">Base Rental Rate</span>
+                            <div class="price-tag">₹<span th:text="${#numbers.formatDecimal(bike.rentalPrice, 1, 'COMMA', 0, 'POINT')}">500</span></div>
+                        </div>
+                        <span class="badge bg-emerald-light text-emerald px-3 py-2 rounded-pill fw-bold">
+                            <i class="bi bi-clock me-1"></i> <span th:text="${bike.includedHours}">12</span> Hours Plan
+                        </span>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 mb-4 small">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Included Distance:</span>
+                            <strong th:text="${bike.includedKm + ' KM'}">80 KM</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Extra Distance Fee:</span>
+                            <strong th:text="${'₹' + bike.extraKmRate + ' / KM'}">₹3.00 / KM</strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Late Return Fee:</span>
+                            <strong th:text="${'₹' + bike.lateHourlyRate + ' / Hour'}">₹50.00 / Hour</strong>
+                        </div>
+                    </div>
+
+                    <!-- Authenticated User Form -->
+                    <form th:action="@{/customer/bookings/create}" method="post" sec:authorize="isAuthenticated()">
+                        <input type="hidden" name="bikeId" th:value="${bike.id}">
+                        
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Pickup Date & Time</label>
+                            <input type="datetime-local" class="form-control form-control-custom" id="pickupInput" name="pickupDateTime" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Expected Return Date & Time</label>
+                            <input type="datetime-local" class="form-control form-control-custom" id="returnInput" name="returnDateTime" required>
+                        </div>
+
+                        <!-- Dynamic Live Price Estimator Box -->
+                        <div id="priceEstimateBox" class="p-3 bg-navy text-white rounded-3 mb-4 d-none">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-slate-300">Estimated Duration:</span>
+                                <strong id="estimatedDurationText" class="text-cyan">12 Hours</strong>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-slate-300">Included Distance:</span>
+                                <strong id="estimatedKmText" class="text-white">80 KM</strong>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary mt-2">
+                                <span class="fw-semibold">Estimated Base Price:</span>
+                                <h4 class="fw-bold text-warning mb-0" id="estimatedPriceText">₹500</h4>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info py-2 small d-flex align-items-center mb-4">
+                            <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                            <div>Identity documents (Aadhaar & DL) must be uploaded for verification before handover.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6" th:disabled="${bike.status.name() != 'AVAILABLE'}">
+                            <i class="bi bi-lightning-charge-fill me-2"></i> Confirm Booking Request
+                        </button>
+                    </form>
+
+                    <!-- Anonymous Guest Prompt -->
+                    <div sec:authorize="isAnonymous()" class="text-center py-3">
+                        <p class="text-muted small mb-3">Please log in or create an account to book this bike.</p>
+                        <a th:href="@{/login}" class="btn btn-indigo w-100 py-3 fw-bold mb-2">Log In to Book</a>
+                        <a th:href="@{/register}" class="btn btn-outline-custom w-100 py-2">Create New Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Price Estimation JS -->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const basePrice = /*[[${bike.rentalPrice}]]*/ 500;
+            const incHours = /*[[${bike.includedHours}]]*/ 12;
+            const incKm = /*[[${bike.includedKm}]]*/ 80;
+
+            const pickupInput = document.getElementById("pickupInput");
+            const returnInput = document.getElementById("returnInput");
+            const estimateBox = document.getElementById("priceEstimateBox");
+            const durationText = document.getElementById("estimatedDurationText");
+            const kmText = document.getElementById("estimatedKmText");
+            const priceText = document.getElementById("estimatedPriceText");
+
+            function updateEstimate() {
+                if (pickupInput && returnInput && pickupInput.value && returnInput.value) {
+                    const start = new Date(pickupInput.value);
+                    const end = new Date(returnInput.value);
+                    const diffMs = end - start;
+
+                    if (diffMs > 0) {
+                        const hours = Math.ceil(diffMs / (1000 * 60 * 60));
+                        const multiplier = Math.max(1, Math.ceil(hours / incHours));
+                        const estimatedPrice = multiplier * basePrice;
+                        const estimatedKm = multiplier * incKm;
+
+                        durationText.textContent = hours + " Hours";
+                        kmText.textContent = estimatedKm + " KM";
+                        priceText.textContent = "₹" + estimatedPrice.toLocaleString('en-IN');
+                        estimateBox.classList.remove("d-none");
+                    } else {
+                        estimateBox.classList.add("d-none");
+                    }
+                }
+            }
+
+            if (pickupInput && returnInput) {
+                pickupInput.addEventListener("change", updateEstimate);
+                returnInput.addEventListener("change", updateEstimate);
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

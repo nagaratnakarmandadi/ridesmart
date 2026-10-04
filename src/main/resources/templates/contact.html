@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Contact</title>
+</head>
+<body>
+<div th:fragment="content">
+    
+    <!-- Light Background Page Hero Banner -->
+    <section class="page-hero-light">
+        <div class="container">
+            <span class="eyebrow-badge">
+                <i class="bi bi-headset"></i> CUSTOMER SUPPORT &amp; INQUIRIES
+            </span>
+            <h1 class="hero-title-dark">Contact RideSmart</h1>
+            <p class="hero-subtitle-dark">Have a question about availability, bookings, verification, or an active rental? Our support team is here to help</p>
+        </div>
+    </section>
+
+    <div class="container pb-5">
+        
+        <!-- 4 Support Category Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="card-custom p-4 h-100 text-center">
+                    <div class="feature-icon-box mx-auto mb-3">
+                        <i class="bi bi-calendar-check-fill text-indigo fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-2">Booking Support</h5>
+                    <p class="text-secondary small mb-0">Questions about reservations, fleet availability, rental rates and date selection.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card-custom p-4 h-100 text-center">
+                    <div class="feature-icon-box mx-auto mb-3">
+                        <i class="bi bi-card-checklist text-indigo fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-2">KYC & Verification</h5>
+                    <p class="text-secondary small mb-0">Help with Aadhaar, Driving Licence, selfie, address proof and verification status.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card-custom p-4 h-100 text-center">
+                    <div class="feature-icon-box mx-auto mb-3">
+                        <i class="bi bi-scooter text-indigo fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-2">Rental Support</h5>
+                    <p class="text-secondary small mb-0">Assistance during active rentals, vehicle handover, returns and roadside issues.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card-custom p-4 h-100 text-center">
+                    <div class="feature-icon-box mx-auto mb-3">
+                        <i class="bi bi-chat-left-dots-fill text-indigo fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-2">General Enquiries</h5>
+                    <p class="text-secondary small mb-0">Other questions about RideSmart services, pricing rules, and platform support.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form & High-Contrast Contact Info Panel -->
+        <div class="card-custom p-4 p-md-5">
+            <div class="row g-4">
+                
+                <!-- Left-Side Contact Information Panel (High Contrast Fix) -->
+                <div class="col-lg-5">
+                    <div class="p-4 p-md-5 bg-navy text-white rounded-3 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h4 class="fw-bold text-white mb-4"><i class="bi bi-geo-alt-fill text-cyan me-2"></i> Contact Information</h4>
+                            
+                            <!-- Location -->
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-icon-box bg-navy-light text-cyan me-3 mt-1" style="width: 44px; height: 44px; flex-shrink: 0;">
+                                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="tiny text-slate-300 d-block uppercase fw-bold">Location</span>
+                                    <strong class="text-white fs-6">Hitech City Road, Madhapur, Hyderabad, Telangana 500081</strong>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-icon-box bg-navy-light text-cyan me-3 mt-1" style="width: 44px; height: 44px; flex-shrink: 0;">
+                                    <i class="bi bi-telephone-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="tiny text-slate-300 d-block uppercase fw-bold">Phone Support</span>
+                                    <strong class="text-white fs-6">+91 98765 43210</strong>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-icon-box bg-navy-light text-cyan me-3 mt-1" style="width: 44px; height: 44px; flex-shrink: 0;">
+                                    <i class="bi bi-envelope-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="tiny text-slate-300 d-block uppercase fw-bold">Email Support</span>
+                                    <strong class="text-white fs-6">support@ridesmart.com</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Support Hours -->
+                        <div class="p-3 bg-navy-light rounded-3 text-slate-300 tiny border border-secondary mt-3">
+                            <i class="bi bi-clock-fill text-warning me-1"></i> <strong>Support Hours:</strong> 07:00 AM - 10:00 PM (Monday to Sunday)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right-Side Inquiry Form -->
+                <div class="col-lg-7">
+                    <div class="ps-lg-3">
+                        <h4 class="fw-bold text-navy mb-2">Send Us a Message</h4>
+                        <p class="text-muted small mb-4">Fill in your details below and our support team will respond promptly.</p>
+
+                        <!-- Client-Side Success Feedback Container -->
+                        <div id="contactFormAlert" class="d-none alert alert-success border-0 shadow-sm rounded-3 mb-3">
+                            <i class="bi bi-check-circle-fill me-2 fs-5"></i> Thank you! Your inquiry has been submitted successfully.
+                        </div>
+
+                        <form id="contactForm" th:action="@{/contact}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-dark">Your Full Name *</label>
+                                    <input type="text" class="form-control form-control-custom" placeholder="e.g. Rahul Sharma" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-dark">Email Address *</label>
+                                    <input type="email" class="form-control form-control-custom" placeholder="name@example.com" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-dark">Phone Number</label>
+                                    <input type="tel" class="form-control form-control-custom" placeholder="10-digit mobile">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold text-dark">Category *</label>
+                                    <select class="form-select form-control-custom" required>
+                                        <option value="" disabled selected>Select category...</option>
+                                        <option>General Inquiry</option>
+                                        <option>Booking Support</option>
+                                        <option>KYC & Verification</option>
+                                        <option>Rental Support</option>
+                                        <option>Payment Support</option>
+                                        <option>Active Rental Issue</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-semibold text-dark">Booking ID (Optional)</label>
+                                    <input type="text" class="form-control form-control-custom" placeholder="e.g. BK-1002">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-semibold text-dark">How can we help? *</label>
+                                    <textarea class="form-control form-control-custom" rows="4" placeholder="Describe your inquiry details..." required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6 mt-4">
+                                <i class="bi bi-send-fill me-2"></i> Send Inquiry
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Client-Side Form Intercept Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("contactForm");
+            const alertBox = document.getElementById("contactFormAlert");
+
+            if (form) {
+                form.addEventListener("submit", function(e) {
+                    if (form.checkValidity()) {
+                        e.preventDefault();
+                        alertBox.classList.remove("d-none");
+                        form.reset();
+                        window.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
+                    }
+                });
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

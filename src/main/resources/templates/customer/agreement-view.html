@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Digital Rental Agreement - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-4xl">
+        <div class="card-custom p-5 bg-white border-0 shadow-lg" id="printableAgreement">
+            
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center pb-4 mb-4 border-bottom">
+                <div>
+                    <h3 class="fw-bold text-navy mb-1"><i class="bi bi-file-earmark-check text-indigo me-2"></i> Digital Vehicle Rental Agreement</h3>
+                    <p class="text-muted small mb-0">RideSmart Bike Rental Platform • Legally Binding Contract</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-success px-3 py-2 fs-6 mb-1">EXECUTED</span>
+                    <div class="fw-bold font-monospace text-indigo fs-5" th:text="${agreement.agreementNumber}">AGR-123456</div>
+                    <div class="small text-muted" th:text="${#temporals.format(agreement.signedAt, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026</div>
+                </div>
+            </div>
+
+            <!-- Agreement Details Grid -->
+            <div class="row g-4 mb-4 p-3 bg-light rounded-3 border">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-uppercase tiny text-muted">Customer Information</h6>
+                    <div class="fw-bold fs-6" th:text="${agreement.customerFullName}">John Doe</div>
+                    <div class="small text-muted" th:text="${'Aadhaar Masked: ' + agreement.customerAadhaarNumber}">XXXXXXXX1234</div>
+                    <div class="small text-muted" th:text="${'Driving License: ' + agreement.customerDlNumber}">DL-VERIFIED</div>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h6 class="fw-bold text-uppercase tiny text-muted">Rented Vehicle Details</h6>
+                    <div class="fw-bold fs-6" th:text="${booking.bike.brand + ' ' + booking.bike.model}">Royal Enfield Classic 350</div>
+                    <div class="small text-muted" th:text="${'Reg No: ' + agreement.bikeRegistrationNumber}">KA-01-EQ-1234</div>
+                    <div class="small text-muted" th:text="${'Booking Ref: ' + booking.bookingReference}">BK-12345</div>
+                </div>
+            </div>
+
+            <!-- Terms & Conditions Summary -->
+            <h6 class="fw-bold mb-3"><i class="bi bi-shield-check text-indigo me-2"></i> Standard Contractual Terms</h6>
+            <div class="p-3 bg-light rounded-3 mb-4 text-muted small border">
+                <p class="mb-2"><strong>1. Speed Limits & Helmet:</strong> Hirer must wear a helmet at all times and adhere to statutory speed limits (max 80 km/h).</p>
+                <p class="mb-2"><strong>2. Fuel Policy:</strong> <span th:text="${agreement.fuelPolicy}">Handover with Full Tank / Agree to Return at Same Level</span>.</p>
+                <p class="mb-2"><strong>3. Included Distance & Late Fees:</strong> Base plan includes <strong th:text="${agreement.includedKm + ' KM'}">80 KM</strong>. Excess distance charged at <strong th:text="${'₹' + agreement.extraKmRate + ' / KM'}">₹3.00/KM</strong>. Overdue return charged at <strong th:text="${'₹' + agreement.lateHourlyRate + ' / Hour'}">₹50.00/Hour</strong>.</p>
+                <p class="mb-0"><strong>4. Damage Liability:</strong> Customer accepts financial responsibility for accidental scratch, collision damage, or traffic violation fines incurred during rental.</p>
+            </div>
+
+            <!-- Declarations -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <h6 class="fw-bold text-indigo small mb-1">Customer Digital Declaration</h6>
+                        <p class="tiny text-muted mb-0" th:text="${agreement.customerDeclaration}">I hereby declare that I hold a valid driving license and will abide by all traffic rules.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <h6 class="fw-bold text-indigo small mb-1">Business Owner Authorization</h6>
+                        <p class="tiny text-muted mb-0" th:text="${agreement.ownerDeclaration}">Business owner confirms vehicle is roadworthy and handed over in clean condition.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="d-flex justify-content-end gap-2 pt-3 border-top d-print-none">
+                <button onclick="window.print()" class="btn btn-outline-custom"><i class="bi bi-printer me-1"></i> Print Agreement</button>
+                <a th:href="@{/customer/dashboard}" class="btn btn-indigo"><i class="bi bi-arrow-left me-1"></i> Back to Dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

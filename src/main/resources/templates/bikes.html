@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Browse Fleet</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- Light Background Page Hero Banner -->
+    <section class="page-hero-light">
+        <div class="container">
+            <span class="eyebrow-badge">
+                <i class="bi bi-grid-3x3-gap-fill"></i> RIDESMART FLEET CATALOG
+            </span>
+            <h1 class="hero-title-dark">Browse Bike Fleet</h1>
+            <p class="hero-subtitle-dark">Choose your preferred two-wheeler, compare rental options, and book your ride with confidence.</p>
+        </div>
+    </section>
+
+    <!-- Main Catalog Grid -->
+    <div class="container pb-5">
+        <div class="row g-4">
+            
+            <!-- Compact Sticky Filters Sidebar -->
+            <div class="col-lg-3">
+                <div class="card-custom p-4 sticky-top" style="top: 85px; z-index: 100;">
+                    <h5 class="fw-bold text-navy mb-3"><i class="bi bi-funnel-fill text-indigo me-2"></i> Filter Fleet</h5>
+
+                    <!-- Real-time Fleet Search Input -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Search Model / Brand</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-search text-indigo"></i></span>
+                            <input type="text" class="form-control form-control-custom" id="fleetSearchInput" placeholder="e.g. Classic 350, Activa...">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Fuel Type</label>
+                        <select class="form-select form-control-custom" id="fuelTypeFilter">
+                            <option selected>All Fuel Types</option>
+                            <option>Petrol</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Bike Brand</label>
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="checkbox" checked id="brandRoyal">
+                            <label class="form-check-label small" for="brandRoyal">Royal Enfield</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="checkbox" checked id="brandHonda">
+                            <label class="form-check-label small" for="brandHonda">Honda</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="checkbox" checked id="brandYamaha">
+                            <label class="form-check-label small" for="brandYamaha">Yamaha</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="checkbox" checked id="brandTVS">
+                            <label class="form-check-label small" for="brandTVS">TVS / Bajaj</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Availability Status</label>
+                        <select class="form-select form-control-custom" id="statusFilter">
+                            <option selected>All Statuses</option>
+                            <option>Available Only</option>
+                            <option>Currently Rented</option>
+                        </select>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 text-muted tiny border">
+                        <i class="bi bi-shield-check text-indigo me-1"></i> Standard plan: ₹500 for 12H / 80 KM. Extra distance @ ₹3/KM, late fee @ ₹50/hr.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bike Cards Grid -->
+            <div class="col-lg-9">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <span class="text-muted small">Showing <strong class="text-dark" th:text="${bikes.size()}">5</strong> Bikes Available for Booking</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="small text-muted">Sort by:</span>
+                        <select class="form-select form-select-sm form-control-custom" style="width: auto;">
+                            <option>Recommended</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-xl-6" th:each="bike : ${bikes}">
+                        <div class="card-custom h-100 d-flex flex-column">
+                            <div class="bike-img-container">
+                                <img th:src="${bike.imageUrl != null ? bike.imageUrl : 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800'}" th:alt="${bike.brand}">
+                                <span class="position-absolute top-0 end-0 m-3 badge-status"
+                                      th:classappend="${bike.status.name() == 'AVAILABLE' ? 'badge-available' : 'badge-rented'}"
+                                      th:text="${bike.status}">AVAILABLE</span>
+                            </div>
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-light text-dark border px-2 py-1" th:text="${bike.brand}">Brand</span>
+                                    <span class="small text-muted"><i class="bi bi-geo-alt-fill text-indigo me-1"></i> GPS Enabled</span>
+                                </div>
+                                <h4 class="fw-bold text-navy mb-1" th:text="${bike.brand + ' ' + bike.model}">Bike Model</h4>
+                                <p class="small text-muted mb-3" th:text="${'Engine: ' + bike.engineCapacity + ' cc • Fuel: ' + bike.fuelType}">349 cc • Petrol</p>
+
+                                <div class="row g-2 border-top border-bottom py-2 my-2 small text-muted text-center bg-light rounded-2">
+                                    <div class="col-6 border-end">
+                                        <div class="fw-bold text-dark" th:text="${bike.includedHours + ' Hours'}">12 Hours</div>
+                                        <div class="tiny text-muted">Rental Plan</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="fw-bold text-dark" th:text="${bike.includedKm + ' KM'}">80 KM</div>
+                                        <div class="tiny text-muted">Included Distance</div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-auto pt-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="price-tag">₹<span th:text="${#numbers.formatDecimal(bike.rentalPrice, 1, 'COMMA', 0, 'POINT')}">500</span></span>
+                                        <span class="price-unit">/ <span th:text="${bike.includedHours}">12</span>H</span>
+                                        <div class="tiny text-muted">Extra KM @ ₹<span th:text="${bike.extraKmRate}">3.00</span>/KM • Overdue @ ₹50/hr</div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a th:href="@{'/bikes/' + ${bike.id}}" class="btn btn-sm btn-outline-custom">Details</a>
+                                        <a th:href="@{'/bikes/' + ${bike.id}}" class="btn btn-sm btn-indigo fw-bold" th:classappend="${bike.status.name() != 'AVAILABLE' ? 'disabled' : ''}">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Real-time Search JS Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("fleetSearchInput");
+            const bikeCards = document.querySelectorAll(".col-md-6 .card-custom");
+
+            if (searchInput) {
+                searchInput.addEventListener("input", function() {
+                    const query = this.value.toLowerCase().trim();
+                    bikeCards.forEach(card => {
+                        const titleElem = card.querySelector("h4");
+                        const titleText = titleElem ? titleElem.textContent.toLowerCase() : "";
+                        const parentCol = card.closest(".col-md-6");
+                        if (parentCol) {
+                            if (!query || titleText.includes(query)) {
+                                parentCol.style.display = "";
+                            } else {
+                                parentCol.style.display = "none";
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+</div>
+</body>
+</html>

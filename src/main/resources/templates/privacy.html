@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Privacy Policy - RideSmart Rentals</title>
+</head>
+<body>
+<div th:fragment="content">
+    
+    <!-- Hero Banner -->
+    <section class="py-4 bg-navy text-white mb-4">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h2 class="fw-bold mb-1"><i class="bi bi-shield-lock text-cyan me-2"></i> Privacy Policy</h2>
+                    <p class="text-slate-300 small mb-0">How RideSmart collects, uses, protects, and handles customer identity data.</p>
+                </div>
+                <span class="badge bg-indigo-subtle text-cyan px-3 py-2 font-monospace">Last updated: 25 August 2026</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container pb-5 max-w-4xl">
+        <div class="card-custom p-4 p-md-5 mb-4">
+            <p class="text-secondary mb-4">RideSmart is committed to respecting customer privacy and protecting personal data. This Privacy Policy outlines our data handling practices for users of the RideSmart bike rental platform.</p>
+
+            <div class="row g-4">
+                <!-- 1. Information We Collect -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-person-lines-fill text-indigo me-2"></i> 1. Information We Collect</h5>
+                        <p class="text-dark small mb-0">We collect information necessary to fulfill rental requests, verify rider identity, maintain vehicle security, and process billing transactions.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Account Information -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-person-badge text-indigo me-2"></i> 2. Account Information</h5>
+                        <p class="text-dark small mb-0">During account creation, we collect your full name, email address, 10-digit mobile number, date of birth, residential address, and emergency contact details.</p>
+                    </div>
+                </div>
+
+                <!-- 3. KYC & Identity Documents -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-card-checklist text-indigo me-2"></i> 3. KYC & Identity Documents</h5>
+                        <p class="text-dark small mb-0">To satisfy vehicle verification requirements, customers submit copies of their Aadhaar Card, valid Driving License, and Selfie identity proof. Documents are stored in encrypted directories outside the public web root and served exclusively via protected endpoints.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Rental & Booking Information -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-journal-bookmark text-indigo me-2"></i> 4. Rental & Booking Information</h5>
+                        <p class="text-dark small mb-0">We record booking references, vehicle selection, pickup/return datetimes, odometer readings, pre/post inspection notes, and generated rental agreements.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Payment Information -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-credit-card text-indigo me-2"></i> 5. Payment Information</h5>
+                        <p class="text-dark small mb-0">We record payment methods (Cash, UPI), payment statuses (`PENDING`, `PAID`), total transaction amounts, and UPI UTR reference numbers. RideSmart does not store bank account passwords or credit card CVVs.</p>
+                    </div>
+                </div>
+
+                <!-- 6. GPS & Location Data -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-geo-alt-fill text-indigo me-2"></i> 6. GPS & Location Data</h5>
+                        <p class="text-dark small mb-0">Where GPS telemetry is enabled, vehicle position coordinates, speed, and cumulative distance are recorded during active rental trips for fleet management and theft protection.</p>
+                    </div>
+                </div>
+
+                <!-- 7. How We Use Information -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-gear-fill text-indigo me-2"></i> 7. How We Use Information</h5>
+                        <p class="text-dark small mb-0">Collected information is used exclusively to operate rental workflows, confirm customer eligibility, generate legal contracts, calculate extra distance charges, and issue tax invoices.</p>
+                    </div>
+                </div>
+
+                <!-- 8. Data Security -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-lock-fill text-indigo me-2"></i> 8. Data Security & Encryption</h5>
+                        <p class="text-dark small mb-0">We employ BCrypt password hashing, role-gated Spring Security authorization filters, and secure file streaming to protect customer records against unauthorized access.</p>
+                    </div>
+                </div>
+
+                <!-- 9. Data Sharing -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-share text-indigo me-2"></i> 9. Data Sharing & Disclosure</h5>
+                        <p class="text-dark small mb-0">RideSmart does not sell, rent, or trade customer personal data to third-party marketers. Data may only be disclosed when required by Indian statutory authorities or law enforcement.</p>
+                    </div>
+                </div>
+
+                <!-- 10. Data Retention -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-hourglass-split text-indigo me-2"></i> 10. Data Retention Policy</h5>
+                        <p class="text-dark small mb-0">Customer identity documents and booking logs are retained for the duration of the account lifecycle to support audit reconciliation and tax compliance.</p>
+                    </div>
+                </div>
+
+                <!-- 11. User Rights -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-shield-check text-indigo me-2"></i> 11. User Rights & Access</h5>
+                        <p class="text-dark small mb-0">Customers have the right to view their submitted documents, active bookings, rental history, invoices, and digital agreements at any time via the customer dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- 12. Account Deletion -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-trash text-indigo me-2"></i> 12. Account & Data Deletion</h5>
+                        <p class="text-dark small mb-0">Customers may request account deactivation or document deletion upon completion of all active rentals and settlement of outstanding dues by contacting support.</p>
+                    </div>
+                </div>
+
+                <!-- 13. Cookies & Session Management -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-cookie text-indigo me-2"></i> 13. Cookies & Session Management</h5>
+                        <p class="text-dark small mb-0">We use essential HTTP session cookies solely to maintain authenticated user login sessions and prevent cross-site request forgery.</p>
+                    </div>
+                </div>
+
+                <!-- 14. Policy Updates -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-arrow-repeat text-indigo me-2"></i> 14. Policy Updates</h5>
+                        <p class="text-dark small mb-0">RideSmart may update this policy periodically to reflect platform enhancements or regulatory changes. Updated versions will display the effective date on this page.</p>
+                    </div>
+                </div>
+
+                <!-- 15. Contact Us -->
+                <div class="col-12">
+                    <div class="p-4 bg-light rounded-3 border">
+                        <h5 class="fw-bold text-navy mb-2"><i class="bi bi-headset text-indigo me-2"></i> 15. Contact Us</h5>
+                        <p class="text-dark small mb-0">If you have privacy concerns or data access requests, please contact our support team via official support channels listed on the Contact page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

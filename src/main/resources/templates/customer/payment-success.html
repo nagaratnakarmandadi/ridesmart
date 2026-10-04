@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Payment Successful</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-lg text-center">
+        <div class="card-custom p-4 p-md-5 border">
+            <div class="rounded-circle bg-success-subtle text-success mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-check-circle-fill fs-1"></i>
+            </div>
+
+            <span class="badge bg-success text-white px-3 py-1 rounded-pill fw-bold mb-2 small font-monospace">PAYMENT CONFIRMED</span>
+            <h2 class="hero-title-dark fs-2 mb-1">Payment Successful</h2>
+            <p class="hero-subtitle-dark fs-6 mb-4">Your payment has been recorded successfully!</p>
+
+            <div class="p-3 bg-light rounded-3 border text-start mb-4">
+                <div class="d-flex justify-content-between small mb-2">
+                    <span class="text-muted">Payment Reference</span>
+                    <strong class="font-monospace text-indigo" th:text="${payment.paymentReference}">PAY-XXXXXXXX</strong>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                    <span class="text-muted">Transaction ID / UTR</span>
+                    <strong class="font-monospace text-dark" th:text="${payment.transactionRefNumber}">UPI-123456</strong>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                    <span class="text-muted">Payment Method</span>
+                    <strong class="text-dark" th:text="${payment.paymentMethod}">UPI</strong>
+                </div>
+                <div class="d-flex justify-content-between small border-top pt-2 mt-2">
+                    <strong class="text-navy">Amount Paid</strong>
+                    <strong class="text-indigo fs-5">₹<span th:text="${#numbers.formatDecimal(payment.amount, 1, 'COMMA', 0, 'POINT')}">500</span></strong>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <a th:href="@{/customer/dashboard}" class="btn btn-indigo py-3 fw-bold fs-6">
+                    <i class="bi bi-speedometer2 me-2"></i> Go to My Dashboard
+                </a>
+                <a th:href="@{/customer/active-rental}" class="btn btn-outline-secondary py-2 small fw-semibold">
+                    <i class="bi bi-geo-alt me-1"></i> View Active Rental GPS
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Pre-Rental Inspection & Handover - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-4xl">
+        <div class="card-custom p-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="fw-bold mb-1"><i class="bi bi-clipboard-check text-indigo me-2"></i> Pre-Rental Inspection & Vehicle Handover</h4>
+                    <p class="text-muted small mb-0">Perform checklist inspection, record starting odometer, and attach photo/video evidence prior to rental activation.</p>
+                </div>
+                <span class="badge bg-navy text-white px-3 py-2 font-monospace" th:text="${booking.bookingReference}">BK-12345</span>
+            </div>
+        </div>
+
+        <div class="card-custom p-4">
+            <form th:action="@{/admin/rentals/inspection/pre/save}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="bookingId" th:value="${booking.id}">
+
+                <!-- Vehicle Info Banner -->
+                <div class="p-3 bg-light rounded-3 mb-4 border d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="fw-bold text-dark fs-5" th:text="${bike.brand + ' ' + bike.model}">Royal Enfield Classic 350</div>
+                        <div class="small text-muted" th:text="${'Reg No: ' + bike.registrationNumber + ' • GPS ID: ' + (bike.gpsDeviceId != null ? bike.gpsDeviceId : 'N/A')}">KA-01-EQ-1234</div>
+                    </div>
+                    <div class="text-end">
+                        <span class="text-muted small">Customer</span>
+                        <div class="fw-bold text-indigo" th:text="${booking.customer.user.fullName}">John Doe</div>
+                    </div>
+                <!-- KYC Status Banner -->
+                <div th:if="${booking.customer.verificationStatus.name() != 'VERIFIED'}" class="alert alert-warning d-flex align-items-center justify-content-between p-3 mb-4 rounded-3 border-warning">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill text-warning fs-3 me-3"></i>
+                        <div>
+                            <strong class="text-dark d-block">KYC verification required before bike handover.</strong>
+                            <span class="small text-muted">Customer documents are currently in state: <span class="badge bg-secondary" th:text="${booking.customer.verificationStatus}">PENDING</span></span>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/documents}" class="btn btn-warning btn-sm fw-bold">Review KYC Documents</a>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Starting Odometer Reading (KM)</label>
+                        <input type="number" class="form-control form-control-custom fw-bold fs-5" name="odometerReading" th:value="${bike.currentOdometer}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Handover Fuel Level</label>
+                        <select class="form-select form-control-custom" name="fuelLevel" required>
+                            <option value="FULL" selected>100% Full Tank</option>
+                            <option value="THREE_QUARTER">75% Three Quarter</option>
+                            <option value="HALF">50% Half Tank</option>
+                            <option value="QUARTER">25% Quarter Tank</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-card-checklist text-indigo me-2"></i> Handover Condition Checklist</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="form-check p-3 bg-light rounded-3 border">
+                                    <input class="form-check-input ms-0 me-2" type="checkbox" checked id="panelsCheck">
+                                    <label class="form-check-label small fw-semibold" for="panelsCheck">Body Panels Intact</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check p-3 bg-light rounded-3 border">
+                                    <input class="form-check-input ms-0 me-2" type="checkbox" checked id="tyresCheck">
+                                    <label class="form-check-label small fw-semibold" for="tyresCheck">Tyre Pressure OK</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check p-3 bg-light rounded-3 border">
+                                    <input class="form-check-input ms-0 me-2" type="checkbox" checked id="helmetCheck">
+                                    <label class="form-check-label small fw-semibold" for="helmetCheck">Sanitized Helmet Provided</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Existing Scratch Notes (if any)</label>
+                        <textarea class="form-control form-control-custom" name="scratchNotes" rows="2" placeholder="e.g. Minor scratch on left side mirror frame"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Inspector Notes</label>
+                        <textarea class="form-control form-control-custom" name="inspectorNotes" rows="2" placeholder="Handover notes..."></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-muted">Upload Pre-Inspection Photo & Video Evidence</label>
+                        <input type="file" class="form-control form-control-custom" name="mediaFiles" multiple accept="image/*,video/*">
+                        <div class="form-text">Attach photos or short video clips of vehicle condition before handover.</div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a th:href="@{/admin/bookings}" class="btn btn-outline-custom">Cancel</a>
+                    <button type="submit" class="btn btn-indigo px-4 py-2 fw-bold fs-6" th:disabled="${booking.customer.verificationStatus.name() != 'VERIFIED'}">
+                        <i class="bi bi-key-fill me-1"></i> Save Inspection & Activate Rental
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

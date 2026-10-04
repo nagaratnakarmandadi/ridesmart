@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Owner Portal Dashboard - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            
+            <!-- Admin Sidebar Navigation -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Dashboard Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <span class="eyebrow-badge mb-2">
+                            <i class="bi bi-shield-lock"></i> OWNER CONTROL PANEL
+                        </span>
+                        <h2 class="hero-title-dark fs-3 mb-1">Owner Portal</h2>
+                        <p class="hero-subtitle-dark fs-6">Manage your fleet, bookings, customers, rentals and operational activity.</p>
+                    </div>
+                    <a th:href="@{/admin/bookings/manual-create}" class="btn btn-indigo fw-bold">
+                        <i class="bi bi-plus-circle me-1"></i> New Manual Booking
+                    </a>
+                </div>
+
+                <!-- KPI Metric Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-indigo"><i class="bi bi-currency-rupee"></i></div>
+                            <div>
+                                <div class="kpi-value">₹<span th:text="${#numbers.formatDecimal(totalRevenue, 1, 'COMMA', 0, 'POINT')}">0</span></div>
+                                <div class="kpi-label">Total Revenue Collected</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-blue"><i class="bi bi-broadcast"></i></div>
+                            <div>
+                                <div class="kpi-value" th:text="${activeRentals}">0</div>
+                                <div class="kpi-label">Active Rentals In Progress</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-green"><i class="bi bi-scooter"></i></div>
+                            <div>
+                                <div class="kpi-value"><span th:text="${availableBikes}">0</span> / <span th:text="${totalBikes}">0</span></div>
+                                <div class="kpi-label">Available Fleet Bikes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <a th:href="@{/admin/documents}" class="text-decoration-none">
+                            <div class="kpi-card">
+                                <div class="kpi-icon kpi-amber"><i class="bi bi-card-checklist"></i></div>
+                                <div>
+                                    <div class="kpi-value" th:text="${pendingDocuments}">0</div>
+                                    <div class="kpi-label">Pending KYC Approvals</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Active Rentals Grid -->
+                <div class="card-custom p-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-broadcast text-indigo me-2"></i> Currently Active Rentals</h5>
+                        <a th:href="@{/admin/rentals/active}" class="text-indigo small fw-bold text-decoration-none">Manage All Active <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Rental Ref</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Start Datetime</th>
+                                    <th>Expected Return</th>
+                                    <th>Odometer</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="rental : ${activeRentalList}">
+                                    <td><strong class="font-monospace text-indigo" th:text="${rental.rentalNumber}">RNT-12345</strong></td>
+                                    <td th:text="${rental.customer.user.fullName}">Customer Name</td>
+                                    <td>
+                                        <div class="fw-bold" th:text="${rental.bike.brand + ' ' + rental.bike.model}">Royal Enfield</div>
+                                        <div class="tiny text-muted" th:text="${rental.bike.registrationNumber}">KA-01-EQ-1234</div>
+                                    </td>
+                                    <td th:text="${#temporals.format(rental.actualStartTime, 'dd MMM, hh:mm a')}">25 Aug, 10:00 AM</td>
+                                    <td th:text="${#temporals.format(rental.expectedEndTime, 'dd MMM, hh:mm a')}">25 Aug, 10:00 PM</td>
+                                    <td th:text="${rental.startingOdometer + ' KM'}">12,500 KM</td>
+                                    <td>
+                                        <a th:href="@{'/admin/rentals/return/' + ${rental.id}}" class="btn btn-sm btn-indigo">
+                                            <i class="bi bi-box-arrow-in-down me-1"></i> Process Return
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${activeRentalList.isEmpty()}">
+                                    <td colspan="7" class="text-center py-3 text-muted">No active rentals currently in progress.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings Table -->
+                <div class="card-custom p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-journal-bookmark text-indigo me-2"></i> Recent Booking Requests</h5>
+                        <a th:href="@{/admin/bookings}" class="text-indigo small fw-bold text-decoration-none">View All Bookings <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Pickup</th>
+                                    <th>Est. Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="booking : ${recentBookings}">
+                                    <td><strong class="font-monospace text-indigo" th:text="${booking.bookingReference}">BK-12345</strong></td>
+                                    <td th:text="${booking.customer.user.fullName}">Customer Name</td>
+                                    <td th:text="${booking.bike.brand + ' ' + booking.bike.model}">Royal Enfield</td>
+                                    <td th:text="${#temporals.format(booking.pickupDateTime, 'dd MMM, hh:mm a')}">25 Aug, 10:00 AM</td>
+                                    <td><strong th:text="${'₹' + #numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">₹500</strong></td>
+                                    <td>
+                                        <span class="badge-status"
+                                              th:classappend="${booking.status.name() == 'ACTIVE' ? 'badge-rented' : (booking.status.name() == 'COMPLETED' ? 'badge-available' : 'badge-maintenance')}"
+                                              th:text="${booking.status}">REQUESTED</span>
+                                    </td>
+                                    <td>
+                                        <a th:if="${booking.status.name() == 'APPROVED' or booking.status.name() == 'REQUESTED'}"
+                                           th:href="@{'/admin/rentals/inspection/pre/' + ${booking.id}}" class="btn btn-sm btn-outline-custom">
+                                            Handover <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                        <span th:unless="${booking.status.name() == 'APPROVED' or booking.status.name() == 'REQUESTED'}" class="text-muted small">-</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

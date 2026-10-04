@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | FAQ</title>
+</head>
+<body>
+<div th:fragment="content">
+    
+    <!-- Light Background Page Hero Banner -->
+    <section class="page-hero-light">
+        <div class="container">
+            <span class="eyebrow-badge">
+                <i class="bi bi-question-circle"></i> RIDESMART KNOWLEDGE BASE
+            </span>
+            <h1 class="hero-title-dark">Frequently Asked Questions</h1>
+            <p class="hero-subtitle-dark">Find quick answers about bookings, KYC, pricing, payments, rentals, returns, and support.</p>
+        </div>
+    </section>
+
+    <div class="container pb-5 max-w-4xl">
+        
+        <!-- Category Navigation Bar -->
+        <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
+            <a href="#cat-booking" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-calendar-check me-1"></i> Booking</a>
+            <a href="#cat-kyc" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-card-checklist me-1"></i> KYC & Documents</a>
+            <a href="#cat-pricing" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-cash-coin me-1"></i> Pricing</a>
+            <a href="#cat-payments" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-credit-card me-1"></i> Payments</a>
+            <a href="#cat-rental" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-scooter me-1"></i> Rental</a>
+            <a href="#cat-return" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-box-arrow-in-down me-1"></i> Return</a>
+            <a href="#cat-support" class="btn btn-sm btn-outline-custom text-nowrap"><i class="bi bi-headset me-1"></i> Support</a>
+        </div>
+
+        <div class="accordion card-custom p-4 p-md-5" id="faqAccordion">
+
+            <!-- CATEGORY 1 — BOOKING -->
+            <div class="mb-4" id="cat-booking">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-calendar-check text-indigo me-2"></i> Category 1 — Booking</h5>
+                
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q1">
+                            How do I book a bike on RideSmart?
+                        </button>
+                    </h2>
+                    <div id="c1q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Navigate to <strong>Browse Fleet</strong>, select your desired bike model, select your pickup date and expected return time, review pricing, and click <strong>Book Now</strong>. Document verification (KYC) is required prior to vehicle handover.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q2">
+                            Can I choose a specific bike?
+                        </button>
+                    </h2>
+                    <div id="c1q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Yes, you can browse specific two-wheeler models (Royal Enfield Classic 350, Honda Activa 6G, Yamaha FZ-S, etc.) with detailed specifications before placing a reservation.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q3">
+                            How do I check bike availability?
+                        </button>
+                    </h2>
+                    <div id="c1q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Vehicle cards on the <strong>Browse Fleet</strong> catalog show real-time availability badges (`AVAILABLE` vs `CURRENTLY RENTED`).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q4">
+                            Can I change my booking?
+                        </button>
+                    </h2>
+                    <div id="c1q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Yes, you can modify unconfirmed bookings from your <strong>Customer Dashboard</strong> or by contacting support before vehicle handover.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q5">
+                            Can I cancel my booking?
+                        </button>
+                    </h2>
+                    <div id="c1q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Booking cancellation eligibility is subject to the cancellation policy displayed during reservation. Pending requests can be cancelled prior to vehicle inspection.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c1q6">
+                            What happens after I submit a booking?
+                        </button>
+                    </h2>
+                    <div id="c1q6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Your reservation is recorded in the system, and your KYC status is verified. Upon approval, vehicle pre-rental inspection is completed, and handover occurs at the pickup hub.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 2 — KYC & DOCUMENTS -->
+            <div class="mb-4" id="cat-kyc">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-card-checklist text-indigo me-2"></i> Category 2 — KYC & Documents</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q1">
+                            What documents are required for KYC?
+                        </button>
+                    </h2>
+                    <div id="c2q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Required documents currently specified: Aadhaar Card, Valid Driving Licence, Selfie identity proof, and Address Proof.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q2">
+                            Is Aadhaar required?
+                        </button>
+                    </h2>
+                    <div id="c2q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Yes, Aadhaar or accepted official Indian identity proof is mandatory for customer identification and safety compliance.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q3">
+                            Do I need a Driving Licence?
+                        </button>
+                    </h2>
+                    <div id="c2q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Yes, possessing a valid Indian Driving Licence appropriate for two-wheelers with gear is legally mandatory. Learners' licenses (LL) are not accepted.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q4">
+                            Why do I need to upload a selfie?
+                        </button>
+                    </h2>
+                    <div id="c2q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            A live selfie matches the rider's physical identity against the uploaded photo ID to prevent impersonation and fraud.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q5">
+                            Why is address proof required?
+                        </button>
+                    </h2>
+                    <div id="c2q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Address proof verifies local residency details for fleet safety records.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c2q6">
+                            When will my KYC be verified?
+                        </button>
+                    </h2>
+                    <div id="c2q6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Uploaded documents are reviewed by the business owner prior to rental activation. Once approved, your account status updates to `VERIFIED`.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 3 — PRICING -->
+            <div class="mb-4" id="cat-pricing">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-cash-coin text-indigo me-2"></i> Category 3 — Pricing</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c3q1">
+                            How much does a 12-hour rental cost?
+                        </button>
+                    </h2>
+                    <div id="c3q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            The current standard RideSmart rental plan is <strong>₹500 for 12 hours</strong> and includes up to <strong>80 KM</strong> of distance allowance.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c3q2">
+                            How much does extra distance cost?
+                        </button>
+                    </h2>
+                    <div id="c3q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Additional distance beyond the included 80 KM is charged at <strong>₹3 per additional KM</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c3q3">
+                            What happens if I keep the bike longer?
+                        </button>
+                    </h2>
+                    <div id="c3q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Additional rental time beyond the scheduled return time is charged at <strong>₹50 per additional hour</strong> according to the applicable rental calculation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 4 — PAYMENTS -->
+            <div class="mb-4" id="cat-payments">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-credit-card text-indigo me-2"></i> Category 4 — Payments</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c4q1">
+                            What payment methods are supported?
+                        </button>
+                    </h2>
+                    <div id="c4q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            RideSmart currently supports <strong>Cash</strong> and <strong>UPI</strong> (storing unique transaction UTR reference numbers).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 5 — RENTAL -->
+            <div class="mb-4" id="cat-rental">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-scooter text-indigo me-2"></i> Category 5 — Rental</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c5q1">
+                            Does the bike have GPS?
+                        </button>
+                    </h2>
+                    <div id="c5q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            RideSmart vehicles may use GPS-enabled tracking to support vehicle security, operational monitoring and rental management in accordance with applicable policies.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c5q2">
+                            What should I do if the bike breaks down?
+                        </button>
+                    </h2>
+                    <div id="c5q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Contact RideSmart support immediately using the emergency helpline provided on your rental agreement or the Support page.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c5q3">
+                            What should I do if there is an accident?
+                        </button>
+                    </h2>
+                    <div id="c5q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Ensure rider safety, notify local emergency authorities if required, and contact RideSmart hub support immediately.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c5q4">
+                            Can someone else ride my rented bike?
+                        </button>
+                    </h2>
+                    <div id="c5q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            No, only verified hirers who have completed KYC verification are authorized to operate the vehicle.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c5q5">
+                            Where should I return the bike?
+                        </button>
+                    </h2>
+                    <div id="c5q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Return the vehicle to the agreed pickup/drop location recorded on your booking details.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 6 — RETURN -->
+            <div class="mb-4" id="cat-return">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-box-arrow-in-down text-indigo me-2"></i> Category 6 — Return</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c6q1">
+                            How is the final amount calculated?
+                        </button>
+                    </h2>
+                    <div id="c6q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            The backend calculation engine computes total charges based on base rental (₹500/12H/80KM), actual distance recorded by odometer (₹3/KM extra), and return timestamp (₹50/hr late fee).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c6q2">
+                            What happens if I exceed 80 KM?
+                        </button>
+                    </h2>
+                    <div id="c6q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Distance beyond 80 KM is billed at ₹3 per extra kilometer upon vehicle return.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c6q3">
+                            What happens if I return the bike late?
+                        </button>
+                    </h2>
+                    <div id="c6q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Late returns incur overdue rental charges billed at ₹50 per additional hour.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c6q4">
+                            Is the bike inspected when I return it?
+                        </button>
+                    </h2>
+                    <div id="c6q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Yes, post-rental inspection records final odometer reading, fuel level, and vehicle physical condition.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY 7 — SUPPORT -->
+            <div id="cat-support">
+                <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom"><i class="bi bi-headset text-indigo me-2"></i> Category 7 — Support</h5>
+
+                <div class="accordion-item border-0 mb-3 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c7q1">
+                            How can I contact RideSmart?
+                        </button>
+                    </h2>
+                    <div id="c7q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Reach out via the official <strong>Support</strong> page form or call our support hotline at +91 98765 43210.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 bg-light rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-navy bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#c7q2">
+                            What should I do if I have an active rental issue?
+                        </button>
+                    </h2>
+                    <div id="c7q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary small pt-0">
+                            Call customer support directly or select `Active Rental Issue` on the contact form for high-priority assistance.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

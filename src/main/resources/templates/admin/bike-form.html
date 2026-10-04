@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Bike Form - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-3xl">
+        <div class="card-custom p-4 mb-4">
+            <h4 class="fw-bold mb-1" th:text="${bike.id == null ? 'Add New Fleet Bike' : 'Edit Bike Details'}">Bike Form</h4>
+            <p class="text-muted small mb-0">Fill in technical specs, registration data, GPS device ID, and pricing parameters.</p>
+        </div>
+
+        <div class="card-custom p-4">
+            <form th:action="@{/admin/bikes/save}" method="post">
+                <input type="hidden" name="id" th:value="${bike.id}">
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Registration Number</label>
+                        <input type="text" class="form-control form-control-custom font-monospace fw-bold" name="registrationNumber" th:value="${bike.registrationNumber}" placeholder="e.g. KA-01-EQ-1234" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Brand / Manufacturer</label>
+                        <input type="text" class="form-control form-control-custom" name="brand" th:value="${bike.brand}" placeholder="e.g. Royal Enfield" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Model Name</label>
+                        <input type="text" class="form-control form-control-custom" name="model" th:value="${bike.model}" placeholder="e.g. Classic 350" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Variant / Edition</label>
+                        <input type="text" class="form-control form-control-custom" name="variant" th:value="${bike.variant}" placeholder="e.g. Stealth Black">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold text-muted">Engine Capacity (cc)</label>
+                        <input type="number" class="form-control form-control-custom" name="engineCapacity" th:value="${bike.engineCapacity}" placeholder="349">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold text-muted">Fuel Type</label>
+                        <select class="form-select form-control-custom" name="fuelType">
+                            <option value="Petrol" th:selected="${bike.fuelType == 'Petrol'}">Petrol</option>
+                            <option value="Electric" th:selected="${bike.fuelType == 'Electric'}">Electric</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold text-muted">Current Odometer (KM)</label>
+                        <input type="number" class="form-control form-control-custom" name="currentOdometer" th:value="${bike.currentOdometer}" placeholder="12500" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Base Rental Rate (₹ / 12 Hours)</label>
+                        <input type="number" step="0.01" class="form-control form-control-custom" name="rentalPrice" th:value="${bike.rentalPrice}" placeholder="500.00" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">GPS Telemetry Device ID</label>
+                        <input type="text" class="form-control form-control-custom font-monospace" name="gpsDeviceId" th:value="${bike.gpsDeviceId}" placeholder="GPS-RE-350">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-muted">Image URL</label>
+                        <input type="url" class="form-control form-control-custom" name="imageUrl" th:value="${bike.imageUrl}" placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-muted">Description & Features</label>
+                        <textarea class="form-control form-control-custom" name="description" rows="3" th:text="${bike.description}" placeholder="Vehicle description..."></textarea>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a th:href="@{/admin/bikes}" class="btn btn-outline-custom">Cancel</a>
+                    <button type="submit" class="btn btn-indigo px-4 fw-bold">Save Bike Details</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

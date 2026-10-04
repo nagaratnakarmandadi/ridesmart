@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Booking Confirmation</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-2xl">
+        <!-- Light Background Page Header -->
+        <div class="card-custom p-4 p-md-5 mb-4 border">
+            <div class="text-center mb-4">
+                <span class="eyebrow-badge mb-2">
+                    <i class="bi bi-calendar-check"></i> VEHICLE RESERVATION
+                </span>
+                <h2 class="hero-title-dark fs-2 mb-1">Booking Confirmed</h2>
+                <p class="hero-subtitle-dark fs-6">Review your reservation details and proceed to payment to confirm your booking.</p>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 border mb-4">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <span class="tiny text-muted d-block fw-semibold">BOOKING REFERENCE</span>
+                        <strong class="text-indigo fs-5 font-monospace" th:text="${booking.bookingReference}">RS-2026-000001</strong>
+                    </div>
+                    <div class="col-sm-6 text-sm-end">
+                        <span class="tiny text-muted d-block fw-semibold">PAYMENT STATUS</span>
+                        <span class="badge bg-warning text-dark px-3 py-1 font-monospace">Payment Pending</span>
+                    </div>
+                    
+                    <div class="col-12"><hr class="my-1"></div>
+
+                    <div class="col-sm-6">
+                        <span class="tiny text-muted d-block fw-semibold">VEHICLE MODEL</span>
+                        <strong class="text-dark fs-6" th:text="${bike.brand + ' ' + bike.model}">Royal Enfield Classic 350</strong>
+                    </div>
+                    <div class="col-sm-6 text-sm-end">
+                        <span class="tiny text-muted d-block fw-semibold">REGISTRATION NO.</span>
+                        <strong class="text-dark font-monospace" th:text="${bike.registrationNumber}">KA-01-EQ-1234</strong>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <span class="tiny text-muted d-block fw-semibold">PICKUP DATETIME</span>
+                        <span class="small fw-semibold text-dark" th:text="${#temporals.format(booking.pickupDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 AM</span>
+                    </div>
+                    <div class="col-sm-6 text-sm-end">
+                        <span class="tiny text-muted d-block fw-semibold">EXPECTED RETURN</span>
+                        <span class="small fw-semibold text-dark" th:text="${#temporals.format(booking.expectedReturnDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Breakdown Summary -->
+            <div class="p-3 bg-indigo-subtle rounded-3 border mb-4">
+                <h6 class="fw-bold text-navy mb-2"><i class="bi bi-receipt me-1"></i> Rental Plan Breakdown</h6>
+                <div class="d-flex justify-content-between small mb-1">
+                    <span class="text-muted">Base Rental (12 Hours included)</span>
+                    <strong class="text-dark">₹<span th:text="${#numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">500</span></strong>
+                </div>
+                <div class="d-flex justify-content-between small mb-1">
+                    <span class="text-muted">Included Distance</span>
+                    <strong class="text-dark">80 KM</strong>
+                </div>
+                <div class="d-flex justify-content-between small text-muted border-top pt-2 mt-2">
+                    <span>Additional Usage Rates:</span>
+                    <span>₹3/extra KM | ₹50/extra Hour</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-2">
+                    <strong class="text-navy fs-5">Estimated Total Amount</strong>
+                    <strong class="text-indigo fs-4">₹<span th:text="${#numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">500</span></strong>
+                </div>
+            </div>
+
+            <!-- Proceed to Payment CTA -->
+            <div class="d-grid gap-2">
+                <a th:href="@{/customer/payments/checkout/{id}(id=${booking.id})}" class="btn btn-indigo py-3 fw-bold fs-6">
+                    <i class="bi bi-credit-card-fill me-2"></i> Proceed to Payment
+                </a>
+                <a th:href="@{/customer/dashboard}" class="btn btn-outline-secondary py-2 small fw-semibold">
+                    View in Customer Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

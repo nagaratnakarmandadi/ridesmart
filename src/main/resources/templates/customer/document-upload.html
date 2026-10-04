@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>KYC Document Verification - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-4xl">
+        <!-- Light Background Page Hero Banner -->
+        <div class="card-custom p-4 bg-light border mb-4">
+            <span class="eyebrow-badge mb-2">
+                <i class="bi bi-card-checklist"></i> CUSTOMER IDENTIFICATION
+            </span>
+            <h2 class="hero-title-dark fs-3 mb-1">Identity Verification</h2>
+            <p class="hero-subtitle-dark fs-6">Complete your verification before your rental is activated.</p>
+        </div>    
+            <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-light border">
+                <i class="bi bi-shield-lock-fill text-indigo fs-2"></i>
+                <div>
+                    <div class="fw-bold">Current Verification Status: <span class="badge" th:classappend="${customer.verificationStatus.name() == 'VERIFIED' ? 'bg-success' : 'bg-warning text-dark'}" th:text="${customer.verificationStatus}">NOT_VERIFIED</span></div>
+                    <div class="small text-muted">Aadhaar Card, Driving License, and Selfie proof required.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Upload Form -->
+            <div class="col-md-5">
+                <div class="card-custom p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-upload text-indigo me-2"></i> Upload Document</h5>
+                    <form th:action="@{/customer/documents/upload}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Document Type</label>
+                            <select class="form-select form-control-custom" name="documentType" required>
+                                <option value="AADHAAR">Aadhaar Card (Required)</option>
+                                <option value="DRIVING_LICENSE">Driving License (Required)</option>
+                                <option value="SELFIE">Selfie with ID Proof (Required)</option>
+                                <option value="ADDRESS_PROOF">Address Proof</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Document Identification No.</label>
+                            <input type="text" class="form-control form-control-custom" name="documentNumber" placeholder="e.g. DL-1420110012345" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-semibold text-muted">Select File (JPG, PNG, PDF max 10MB)</label>
+                            <input type="file" class="form-control form-control-custom" name="file" accept="image/*,.pdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-indigo w-100 py-2 fw-bold">
+                            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Submit Document
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Uploaded Documents Table -->
+            <div class="col-md-7">
+                <div class="card-custom p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-files text-indigo me-2"></i> Submitted Documents</h5>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Document Type</th>
+                                    <th>Doc Number</th>
+                                    <th>Status</th>
+                                    <th>Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="doc : ${documents}">
+                                    <td class="fw-semibold" th:text="${doc.documentType}">DRIVING_LICENSE</td>
+                                    <td class="font-monospace small" th:text="${doc.documentNumber}">DL-12345</td>
+                                    <td>
+                                        <span class="badge-status"
+                                              th:classappend="${doc.status.name() == 'VERIFIED' ? 'badge-available' : (doc.status.name() == 'SUBMITTED' ? 'badge-rented' : 'badge-blocked')}"
+                                              th:text="${doc.status}">SUBMITTED</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'/api/documents/stream/' + ${doc.id}}" target="_blank" class="btn btn-sm btn-outline-custom">
+                                            <i class="bi bi-eye me-1"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${documents.isEmpty()}">
+                                    <td colspan="4" class="text-center py-4 text-muted">No documents uploaded yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | How It Works</title>
+</head>
+<body>
+<div th:fragment="content">
+    
+    <!-- Light Background Page Hero Banner -->
+    <section class="page-hero-light">
+        <div class="container">
+            <span class="eyebrow-badge">
+                <i class="bi bi-gear-wide-connected"></i> RENTAL WORKFLOW
+            </span>
+            <h1 class="hero-title-dark">How RideSmart Works</h1>
+            <p class="hero-subtitle-dark">From selecting your bike to returning it, here's your complete rental journey</p>
+        </div>
+    </section>
+
+    <!-- Main 7-Step Process Section -->
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-navy mb-2">Step-by-Step Rental Journey</h2>
+            <p class="text-muted small">Everything you need to know from online bike selection to vehicle return and final invoice settlement.</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <!-- Step 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 01</span>
+                            <i class="bi bi-grid-3x3-gap-fill text-indigo fs-2"></i>
+                        </div>
+                        <h4 class="fw-bold text-navy mb-2">1. Choose Your Bike</h4>
+                        <p class="text-secondary small mb-3">Browse the available fleet and select the bike that best suits your needs. Compare vehicle models, fuel type, engine capacity, included distance allowance, and live availability.</p>
+                    </div>
+                    <div>
+                        <a th:href="@{/bikes}" class="btn btn-sm btn-outline-custom w-100"><i class="bi bi-arrow-right-circle me-1"></i> Browse Fleet</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 02</span>
+                        <i class="bi bi-calendar-event-fill text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">2. Select Your Rental Period</h4>
+                    <p class="text-secondary small mb-0">Choose your pickup date, pickup time, and expected return time. Standard rental duration is 12 Hours with 80 KM distance included at a base rate of ₹500.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 03</span>
+                        <i class="bi bi-card-checklist text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">3. Complete KYC Verification</h4>
+                    <p class="text-secondary small mb-0">Provide the required identity and verification documents before the rental is activated. Required proofs include: Aadhaar, Valid Driving Licence, Selfie, and Address Proof. Verification is required before vehicle handover.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 04</span>
+                        <i class="bi bi-check-circle-fill text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">4. Confirm Your Booking</h4>
+                    <p class="text-secondary small mb-0">Review the selected vehicle, rental duration, included distance (80 KM), and applicable charges. Confirm your reservation and access your Booking ID details.</p>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 05</span>
+                        <i class="bi bi-clipboard-check-fill text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">5. Pick Up Your Bike</h4>
+                    <p class="text-secondary small mb-0">Complete the vehicle handover and inspection process. Record relevant vehicle condition, starting odometer reading, and fuel information before starting the rental.</p>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 06</span>
+                        <i class="bi bi-shield-lock-fill text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">6. Ride Responsibly</h4>
+                    <p class="text-secondary small mb-0">RideSmart vehicles may use GPS-enabled tracking to support vehicle security, operational monitoring and rental management in accordance with applicable policies.</p>
+                </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+                <div class="card-custom p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-navy text-cyan font-monospace px-3 py-2 fs-6">STEP 07</span>
+                        <i class="bi bi-box-arrow-in-down text-indigo fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold text-navy mb-2">7. Return the Bike</h4>
+                    <p class="text-secondary small mb-0">Return the vehicle at the agreed location and time. The vehicle is inspected and the final rental amount calculated based on applicable rental rules (Extra KM @ ₹3/KM, Overdue @ ₹50/hr).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why RideSmart Platform Focus Section -->
+        <div class="card-custom p-4 p-md-5 bg-navy text-white">
+            <h3 class="fw-bold text-white mb-3">About RideSmart</h3>
+            <p class="text-slate-300 fs-5 mb-3">RideSmart is a digital bike rental management platform designed to simplify the complete rental journey — from discovering an available vehicle and completing customer verification to booking, inspection, active rental monitoring, payment and final settlement.</p>
+            <p class="text-slate-300 small mb-0">Our platform brings the major operational parts of two-wheeler rental into one structured workflow, helping customers understand their booking while helping rental operators manage vehicles, documents, rentals, payments and operational records with complete accountability.</p>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

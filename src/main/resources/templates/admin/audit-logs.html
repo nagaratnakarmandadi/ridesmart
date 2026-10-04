@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>System Audit Logs - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link active"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">System Audit & Security Activity Logs</h3>
+                        <p class="text-muted small mb-0">Immutable records of system actions, booking modifications, document approvals, and payments.</p>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4">
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                    <th>Entity</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="log : ${logs}">
+                                    <td class="font-monospace small" th:text="${#temporals.format(log.timestamp, 'dd MMM yyyy, hh:mm:ss a')}">25 Aug 2026, 10:00:00 AM</td>
+                                    <td class="fw-bold text-dark" th:text="${log.username}">admin@bikerental.com</td>
+                                    <td><span class="badge bg-light text-dark border" th:text="${log.role}">ROLE_ADMIN</span></td>
+                                    <td><span class="badge bg-indigo-subtle text-indigo" th:text="${log.action}">BOOKING_CREATED</span></td>
+                                    <td th:text="${log.entityName + ' #' + log.entityId}">Booking #1</td>
+                                    <td class="small text-muted" th:text="${log.details}">Created booking BK-12345</td>
+                                </tr>
+                                <tr th:if="${logs.isEmpty()}">
+                                    <td colspan="6" class="text-center py-4 text-muted">No audit logs recorded yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

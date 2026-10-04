@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Reports & Financial Analytics - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link active"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Financial & Fleet Revenue Reports</h3>
+                        <p class="text-muted small mb-0">Detailed breakdown of total revenue, excess distance earnings, and late fee charges.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-cash-stack text-success fs-1 mb-2"></i>
+                            <div class="text-muted small">Excess Distance Revenue</div>
+                            <h3 class="fw-bold text-dark mb-0">₹<span th:text="${#numbers.formatDecimal(extraKmRevenue, 1, 'COMMA', 2, 'POINT')}">0.00</span></h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-clock-history text-warning fs-1 mb-2"></i>
+                            <div class="text-muted small">Late Return Fee Revenue</div>
+                            <h3 class="fw-bold text-dark mb-0">₹<span th:text="${#numbers.formatDecimal(lateRevenue, 1, 'COMMA', 2, 'POINT')}">0.00</span></h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-check-circle-fill text-indigo fs-1 mb-2"></i>
+                            <div class="text-muted small">Completed Rentals</div>
+                            <h3 class="fw-bold text-dark mb-0" th:text="${completedRentals.size()}">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-receipt text-indigo me-2"></i> Paid Payment Transactions Log</h5>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Pay Ref</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Transaction / UTR Ref</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="pay : ${payments}">
+                                    <td><strong class="font-monospace text-indigo" th:text="${pay.paymentReference}">PAY-12345</strong></td>
+                                    <td th:text="${pay.customer.user.fullName}">Customer Name</td>
+                                    <td><strong th:text="${'₹' + #numbers.formatDecimal(pay.amount, 1, 'COMMA', 2, 'POINT')}">₹500.00</strong></td>
+                                    <td><span class="badge bg-navy text-white" th:text="${pay.paymentMethod}">UPI</span></td>
+                                    <td class="font-monospace small" th:text="${pay.transactionRefNumber != null ? pay.transactionRefNumber : 'N/A'}">UTR-987654</td>
+                                    <td th:text="${#temporals.format(pay.paymentDate, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 AM</td>
+                                </tr>
+                                <tr th:if="${payments.isEmpty()}">
+                                    <td colspan="6" class="text-center py-4 text-muted">No payment transactions recorded yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Tax Invoice - RideSmart Rentals</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-3xl">
+        <div class="card-custom p-5 bg-white shadow-lg border-0" id="printableInvoice">
+            
+            <!-- Invoice Header -->
+            <div class="d-flex justify-content-between align-items-center pb-4 mb-4 border-bottom">
+                <div>
+                    <h3 class="fw-bold text-navy mb-1"><i class="bi bi-scooter text-indigo me-2"></i> RideSmart Rentals</h3>
+                    <p class="text-muted small mb-0">Smart Bike Rental Platform • GSTIN: 36ABCDE1234F1Z5</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-success px-3 py-2 fs-6 mb-1">PAID</span>
+                    <div class="fw-bold font-monospace text-indigo fs-5" th:text="${invoice.invoiceNumber}">INV-123456</div>
+                    <div class="small text-muted" th:text="${#temporals.format(invoice.issuedAt, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026</div>
+                </div>
+            </div>
+
+            <!-- Customer & Bike Info Grid -->
+            <div class="row g-4 mb-4 p-3 bg-light rounded-3 border">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-uppercase tiny text-muted">Billed To Customer</h6>
+                    <div class="fw-bold fs-6" th:text="${invoice.customer.user.fullName}">John Doe</div>
+                    <div class="small text-muted" th:text="${'Mobile: ' + invoice.customer.user.mobileNumber}">+91 98765 43210</div>
+                    <div class="small text-muted" th:text="${'Email: ' + invoice.customer.user.email}">john@example.com</div>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h6 class="fw-bold text-uppercase tiny text-muted">Vehicle Details</h6>
+                    <div class="fw-bold fs-6" th:text="${invoice.bike.brand + ' ' + invoice.bike.model}">Royal Enfield Classic 350</div>
+                    <div class="small text-muted" th:text="${'Reg No: ' + invoice.bike.registrationNumber}">KA-01-EQ-1234</div>
+                    <div class="small text-muted" th:text="${'Rental Ref: ' + invoice.rental.rentalNumber}">RNT-12345</div>
+                </div>
+            </div>
+
+            <!-- Line Items Table -->
+            <h6 class="fw-bold mb-3"><i class="bi bi-list-check text-indigo me-2"></i> Charge Breakdown</h6>
+            <div class="table-responsive mb-4">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Item Description</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-end">Unit Price</th>
+                            <th class="text-end">Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${invoice.invoiceItems}">
+                            <td class="fw-semibold" th:text="${item.description}">Base Rental Charge (12 Hours / 80 KM)</td>
+                            <td class="text-center" th:text="${item.quantity}">1</td>
+                            <td class="text-end" th:text="${'₹' + #numbers.formatDecimal(item.unitPrice, 1, 'COMMA', 2, 'POINT')}">₹500.00</td>
+                            <td class="text-end fw-bold" th:text="${'₹' + #numbers.formatDecimal(item.totalPrice, 1, 'COMMA', 2, 'POINT')}">₹500.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Total Amount Settlement -->
+            <div class="row align-items-center pt-3 border-top">
+                <div class="col-md-6">
+                    <div class="small text-muted mb-1">Payment Method</div>
+                    <span class="badge bg-navy text-white px-3 py-2 fw-semibold" th:text="${invoice.paymentStatus}">PAID VIA CASH / UPI</span>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <span class="text-muted small">Total Paid Settlement</span>
+                    <h2 class="fw-bold text-indigo mb-0">₹<span th:text="${#numbers.formatDecimal(invoice.totalAmount, 1, 'COMMA', 2, 'POINT')}">500.00</span></h2>
+                </div>
+            </div>
+
+            <!-- Footer Action Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top d-print-none">
+                <button onclick="window.print()" class="btn btn-outline-custom"><i class="bi bi-printer me-1"></i> Print Invoice</button>
+                <a th:href="@{/customer/dashboard}" class="btn btn-indigo"><i class="bi bi-arrow-left me-1"></i> Back to Dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

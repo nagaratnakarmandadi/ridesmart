@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Error</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-lg">
+        <div class="card-custom p-4 p-md-5 text-center">
+            <div class="rounded-circle bg-danger-subtle text-danger mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-exclamation-triangle-fill fs-1"></i>
+            </div>
+            
+            <span class="badge bg-danger text-white px-3 py-1 rounded-pill fw-bold mb-2 small" th:text="${'HTTP STATUS ' + statusCode}">HTTP STATUS 400</span>
+            
+            <h2 class="hero-title-dark fs-2 mb-2" th:text="${errorTitle}">Invalid Request</h2>
+            <p class="hero-subtitle-dark fs-6 mb-4 mx-auto" th:text="${errorDescription}">The request contained invalid or mismatched parameters.</p>
+
+            <div th:if="${detailMessage != null and !detailMessage.isEmpty()}" class="p-3 bg-light rounded-3 text-start small border mb-4 font-monospace text-muted text-break">
+                <i class="bi bi-bug me-1"></i> <span th:text="${detailMessage}">Error details</span>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+                <a th:href="@{/}" class="btn btn-indigo px-4 py-2 fw-bold">
+                    <i class="bi bi-house-door me-1"></i> Return Home
+                </a>
+                <a th:href="@{/bikes}" class="btn btn-outline-secondary px-4 py-2 fw-bold">
+                    <i class="bi bi-grid me-1"></i> Browse Fleet
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

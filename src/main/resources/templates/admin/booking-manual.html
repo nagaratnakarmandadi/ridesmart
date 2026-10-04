@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Create Manual Walk-In Booking - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-3xl">
+        <div class="card-custom p-4 mb-4">
+            <h4 class="fw-bold mb-1"><i class="bi bi-person-plus text-indigo me-2"></i> Create Walk-In Manual Booking</h4>
+            <p class="text-muted small mb-0">Record instant offline or phone bookings directly as business owner.</p>
+        </div>
+
+        <div class="card-custom p-4">
+            <form th:action="@{/admin/bookings/manual-create}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Select Registered Customer</label>
+                        <select class="form-select form-control-custom" name="customerId" required>
+                            <option value="" disabled selected>-- Select Customer --</option>
+                            <option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.user.fullName + ' (' + cust.user.mobileNumber + ')'}">John Doe</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Select Available Bike</label>
+                        <select class="form-select form-control-custom" name="bikeId" required>
+                            <option value="" disabled selected>-- Select Bike --</option>
+                            <option th:each="b : ${bikes}" th:value="${b.id}" th:text="${b.brand + ' ' + b.model + ' - ' + b.registrationNumber}">Royal Enfield Classic</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Pickup Date & Time</label>
+                        <input type="datetime-local" class="form-control form-control-custom" name="pickupDateTime" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Expected Return Date & Time</label>
+                        <input type="datetime-local" class="form-control form-control-custom" name="returnDateTime" required>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a th:href="@{/admin/bookings}" class="btn btn-outline-custom">Cancel</a>
+                    <button type="submit" class="btn btn-indigo px-4 fw-bold">Create & Approve Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

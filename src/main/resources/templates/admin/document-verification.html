@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>KYC Document Verification - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link active"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Customer KYC Document Verification Queue</h3>
+                        <p class="text-muted small mb-0">Review submitted Aadhaar, Driving License, and Selfie identity proofs.</p>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-warning me-2"></i> Pending Document Approval Queue</h5>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Doc Type</th>
+                                    <th>Doc Number</th>
+                                    <th>File Name</th>
+                                    <th>Preview</th>
+                                    <th>Decision Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="doc : ${pendingDocs}">
+                                    <td>
+                                        <div class="fw-bold" th:text="${doc.customer.user.fullName}">Customer Name</div>
+                                        <div class="tiny text-muted" th:text="${doc.customer.user.mobileNumber}">+91 98765 43210</div>
+                                    </td>
+                                    <td><span class="badge bg-indigo-subtle text-indigo" th:text="${doc.documentType}">DRIVING_LICENSE</span></td>
+                                    <td class="font-monospace small" th:text="${doc.documentNumber}">DL-12345678</td>
+                                    <td class="small text-muted" th:text="${doc.fileName}">dl.jpg</td>
+                                    <td>
+                                        <a th:href="@{'/api/documents/stream/' + ${doc.id}}" target="_blank" class="btn btn-sm btn-outline-custom">
+                                            <i class="bi bi-eye me-1"></i> Preview File
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <form th:action="@{'/admin/documents/verify/' + ${doc.id}}" method="post" class="d-inline">
+                                                <input type="hidden" name="status" value="VERIFIED">
+                                                <input type="hidden" name="notes" value="Document verified & approved by business owner.">
+                                                <button type="submit" class="btn btn-sm btn-success fw-semibold"><i class="bi bi-check-lg me-1"></i> Approve</button>
+                                            </form>
+                                            <form th:action="@{'/admin/documents/verify/' + ${doc.id}}" method="post" class="d-inline">
+                                                <input type="hidden" name="status" value="REJECTED">
+                                                <input type="hidden" name="notes" value="Document image unclear or invalid.">
+                                                <button type="submit" class="btn btn-sm btn-danger fw-semibold"><i class="bi bi-x-lg me-1"></i> Reject</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${pendingDocs.isEmpty()}">
+                                    <td colspan="6" class="text-center py-4 text-muted">No pending customer KYC documents in approval queue. All up to date!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

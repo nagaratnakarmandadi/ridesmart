@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Customer Dashboard - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5">
+        <!-- Light Background Page Hero Banner -->
+        <div class="card-custom p-4 bg-light border mb-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <span class="eyebrow-badge mb-2">
+                        <i class="bi bi-person-circle"></i> CUSTOMER PORTAL
+                    </span>
+                    <h2 class="hero-title-dark fs-3 mb-1">My RideSmart</h2>
+                    <p class="hero-subtitle-dark fs-6">Manage your bookings, verification status and active rentals.</p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge py-2 px-3 rounded-pill"
+                          th:classappend="${customer.verificationStatus.name() == 'VERIFIED' ? 'bg-success' : (customer.verificationStatus.name() == 'PENDING' ? 'bg-warning text-dark' : 'bg-danger')}"
+                          th:text="${'KYC Status: ' + customer.verificationStatus}">KYC Status: NOT_VERIFIED</span>
+                    <a th:href="@{/customer/documents}" class="btn btn-sm btn-outline-light"><i class="bi bi-upload me-1"></i> Upload KYC</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Rental Alert Box (if active) -->
+        <div th:if="${activeRental != null}" class="alert alert-info border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <span class="badge bg-primary mb-2 px-3 py-1"><i class="bi bi-broadcast me-1"></i> RENTAL IN PROGRESS</span>
+                    <h4 class="fw-bold mb-1" th:text="${activeRental.bike.brand + ' ' + activeRental.bike.model + ' (' + activeRental.bike.registrationNumber + ')'}">Royal Enfield Classic 350</h4>
+                    <p class="small text-muted mb-0">
+                        Started: <strong th:text="${#temporals.format(activeRental.actualStartTime, 'dd MMM yyyy, hh:mm a')}">25 Aug, 10:00 AM</strong> |
+                        Expected Return: <strong th:text="${#temporals.format(activeRental.expectedEndTime, 'dd MMM yyyy, hh:mm a')}">25 Aug, 10:00 PM</strong>
+                    </p>
+                </div>
+                <a th:href="@{/customer/active-rental}" class="btn btn-indigo px-4 py-2 fw-bold">
+                    <i class="bi bi-geo-alt-fill me-1"></i> Live GPS Tracking
+                </a>
+            </div>
+        </div>
+
+        <!-- Bookings History Grid -->
+        <div class="card-custom p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-bold mb-0"><i class="bi bi-journal-bookmark text-indigo me-2"></i> My Booking History</h5>
+                <a th:href="@{/bikes}" class="btn btn-sm btn-indigo"><i class="bi bi-plus-lg me-1"></i> Book New Ride</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Booking Ref</th>
+                            <th>Bike Details</th>
+                            <th>Pickup Time</th>
+                            <th>Expected Return</th>
+                            <th>Est. Total</th>
+                            <th>Booking Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${bookings}">
+                            <td><strong class="font-monospace text-indigo" th:text="${booking.bookingReference}">BK-12345</strong></td>
+                            <td>
+                                <div class="fw-bold text-dark" th:text="${booking.bike.brand + ' ' + booking.bike.model}">Royal Enfield Classic</div>
+                                <div class="tiny text-muted" th:text="${booking.bike.registrationNumber}">KA-01-EQ-1234</div>
+                            </td>
+                            <td th:text="${#temporals.format(booking.pickupDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 AM</td>
+                            <td th:text="${#temporals.format(booking.expectedReturnDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 PM</td>
+                            <td><strong th:text="${'₹' + #numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">₹500</strong></td>
+                            <td>
+                                <span class="badge-status"
+                                      th:classappend="${booking.status.name() == 'COMPLETED' ? 'badge-available' : (booking.status.name() == 'ACTIVE' ? 'badge-rented' : 'badge-maintenance')}"
+                                      th:text="${booking.status}">REQUESTED</span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a th:if="${booking.status.name() == 'APPROVED' or booking.status.name() == 'ACTIVE' or booking.status.name() == 'COMPLETED'}"
+                                       th:href="@{'/customer/agreements/' + ${booking.id}}" class="btn btn-sm btn-outline-custom">
+                                        <i class="bi bi-file-earmark-text me-1"></i> Agreement
+                                    </a>
+                                    <a th:if="${booking.status.name() == 'COMPLETED'}" th:href="@{'/customer/invoices/' + ${booking.id}}" class="btn btn-sm btn-outline-indigo">
+                                        <i class="bi bi-receipt me-1"></i> Invoice
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${bookings.isEmpty()}">
+                            <td colspan="7" class="text-center py-4 text-muted">You haven't made any bike bookings yet. Browse our fleet to book your first ride!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

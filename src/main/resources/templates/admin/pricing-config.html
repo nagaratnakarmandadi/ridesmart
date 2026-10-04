@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Pricing Configuration - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link active"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Default Platform Pricing Engine Configuration</h3>
+                        <p class="text-muted small mb-0">Configure base rental rates, included distance allowance, excess kilometer rates, and late return fees.</p>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4 max-w-3xl">
+                    <form th:action="@{/admin/rentals/pricing/save}" method="post">
+                        <input type="hidden" name="id" th:value="${pricingRule.id}">
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-muted">Pricing Plan Title</label>
+                                <input type="text" class="form-control form-control-custom fw-bold" name="ruleName" th:value="${pricingRule.ruleName != null ? pricingRule.ruleName : 'Standard 12H / 80KM Plan'}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Base Rental Rate (₹)</label>
+                                <input type="number" step="0.01" class="form-control form-control-custom fw-bold fs-5" name="baseRate" th:value="${pricingRule.baseRate != null ? pricingRule.baseRate : 500.00}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Included Duration (Hours)</label>
+                                <input type="number" class="form-control form-control-custom fw-bold fs-5" name="includedHours" th:value="${pricingRule.includedHours != null ? pricingRule.includedHours : 12}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Included Distance (KM)</label>
+                                <input type="number" class="form-control form-control-custom fw-bold fs-5" name="includedKm" th:value="${pricingRule.includedKm != null ? pricingRule.includedKm : 80}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Excess Distance Rate (₹ / extra KM)</label>
+                                <input type="number" step="0.01" class="form-control form-control-custom fw-bold fs-5 text-indigo" name="extraKmRate" th:value="${pricingRule.extraKmRate != null ? pricingRule.extraKmRate : 3.00}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Late Return Fee (₹ / extra Hour)</label>
+                                <input type="number" step="0.01" class="form-control form-control-custom fw-bold fs-5 text-danger" name="lateHourlyRate" th:value="${pricingRule.lateHourlyRate != null ? pricingRule.lateHourlyRate : 50.00}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Booking Cancellation Fee (₹)</label>
+                                <input type="number" step="0.01" class="form-control form-control-custom" name="cancellationFee" th:value="${pricingRule.cancellationFee != null ? pricingRule.cancellationFee : 100.00}">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                            <button type="submit" class="btn btn-indigo px-4 py-2 fw-bold">
+                                <i class="bi bi-save me-1"></i> Update Default Pricing Config
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

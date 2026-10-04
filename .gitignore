@@ -1,0 +1,38 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!target/classes/architecture/
+!target/project-local-repo
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!.idea/icon.png
+
+### VS Code ###
+.vscode/
+
+### OS Generated ###
+.DS_Store
+Thumbs.db
+
+### Log files ###
+*.log

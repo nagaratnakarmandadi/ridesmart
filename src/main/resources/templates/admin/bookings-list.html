@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Bookings Management - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link active"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Bookings Management Queue</h3>
+                        <p class="text-muted small mb-0">Approve, reject, or track online customer booking requests and walk-in reservations.</p>
+                    </div>
+                    <a th:href="@{/admin/bookings/manual-create}" class="btn btn-indigo fw-bold">
+                        <i class="bi bi-plus-lg me-1"></i> New Walk-In Booking
+                    </a>
+                </div>
+
+                <div class="card-custom p-4">
+                    <!-- Status Filter Tabs -->
+                    <div class="btn-group mb-3" role="group" id="statusFilterGroup">
+                        <button type="button" class="btn btn-sm btn-indigo filter-btn active" data-status="ALL">All Bookings</button>
+                        <button type="button" class="btn btn-sm btn-outline-custom filter-btn" data-status="REQUESTED">Requested</button>
+                        <button type="button" class="btn btn-sm btn-outline-custom filter-btn" data-status="APPROVED">Approved</button>
+                        <button type="button" class="btn btn-sm btn-outline-custom filter-btn" data-status="ACTIVE">Active</button>
+                        <button type="button" class="btn btn-sm btn-outline-custom filter-btn" data-status="COMPLETED">Completed</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-custom" id="bookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Ref No</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Pickup Datetime</th>
+                                    <th>Expected Return</th>
+                                    <th>Est Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="booking : ${bookings}">
+                                    <td><strong class="font-monospace text-indigo" th:text="${booking.bookingReference}">BK-12345</strong></td>
+                                    <td>
+                                        <div class="fw-bold text-dark" th:text="${booking.customer.user.fullName}">Customer Name</div>
+                                        <div class="tiny text-muted" th:text="${booking.customer.user.mobileNumber}">+91 98765 43210</div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold" th:text="${booking.bike.brand + ' ' + booking.bike.model}">Royal Enfield</div>
+                                        <div class="tiny text-muted" th:text="${booking.bike.registrationNumber}">KA-01-EQ-1234</div>
+                                    </td>
+                                    <td th:text="${#temporals.format(booking.pickupDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 AM</td>
+                                    <td th:text="${#temporals.format(booking.expectedReturnDateTime, 'dd MMM yyyy, hh:mm a')}">25 Aug 2026, 10:00 PM</td>
+                                    <td><strong th:text="${'₹' + #numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">₹500</strong></td>
+                                    <td>
+                                        <span class="badge-status"
+                                              th:classappend="${booking.status.name() == 'APPROVED' ? 'badge-available' : (booking.status.name() == 'ACTIVE' ? 'badge-rented' : 'badge-maintenance')}"
+                                              th:text="${booking.status}">REQUESTED</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a th:if="${booking.status.name() == 'REQUESTED' or booking.status.name() == 'APPROVED'}"
+                                               th:href="@{'/admin/rentals/inspection/pre/' + ${booking.id}}"
+                                               class="btn btn-sm btn-indigo">
+                                                Handover <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                            
+                                            <form th:if="${booking.status.name() == 'REQUESTED'}" th:action="@{'/admin/bookings/update-status/' + ${booking.id}}" method="post" class="d-inline">
+                                                <input type="hidden" name="status" value="APPROVED">
+                                                <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-check-circle"></i> Approve</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Table Filter JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const filterBtns = document.querySelectorAll("#statusFilterGroup .filter-btn");
+            const rows = document.querySelectorAll("#bookingsTable tbody tr");
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener("click", function() {
+                    filterBtns.forEach(b => {
+                        b.classList.remove("btn-indigo", "active");
+                        b.classList.add("btn-outline-custom");
+                    });
+                    this.classList.remove("btn-outline-custom");
+                    this.classList.add("btn-indigo", "active");
+
+                    const status = this.getAttribute("data-status");
+                    rows.forEach(row => {
+                        const statusBadge = row.querySelector(".badge-status");
+                        if (status === "ALL" || (statusBadge && statusBadge.textContent.trim() === status)) {
+                            row.style.display = "";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</div>
+</body>
+</html>

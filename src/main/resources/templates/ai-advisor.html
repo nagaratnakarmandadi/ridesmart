@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::div.content-wrapper})}">
+<head>
+    <title>Spring AI Smart Ride Advisor - RideSmart</title>
+</head>
+<body>
+<div class="content-wrapper">
+    <div class="page-hero-light text-center py-4 mb-4" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);">
+        <div class="container">
+            <h1 class="display-6 fw-bold text-white mb-2"><i class="bi bi-robot text-warning me-2"></i> Spring AI Smart Ride Advisor</h1>
+            <p class="text-white-50 mb-0">Get intelligent vehicle recommendations and instant AI policy assistance powered by Spring AI</p>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row g-4">
+            <!-- Left Card: AI Bike Recommendation Form -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-4 h-100">
+                    <div class="card-header bg-white py-3 border-bottom border-light">
+                        <h5 class="fw-bold text-navy mb-0"><i class="bi bi-magic me-2 text-indigo"></i> Intelligent Bike Recommendation</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="aiRecommendForm">
+                            <div class="mb-3">
+                                <label for="tripType" class="form-label fw-semibold text-navy">Trip Purpose / Terrain</label>
+                                <select class="form-select" id="tripType" name="tripType">
+                                    <option value="CITY_COMMUTE">City Commute (Traffic / Short Trips)</option>
+                                    <option value="HIGHWAY_TOURING">Highway Touring / Long Distance</option>
+                                    <option value="SPORT_BALANCED">Balanced Sport / Weekend Ride</option>
+                                </select>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <label for="hours" class="form-label fw-semibold text-navy">Trip Duration (Hours)</label>
+                                    <input type="number" class="form-control" id="hours" value="12" min="1" max="72">
+                                </div>
+                                <div class="col-6">
+                                    <label for="distanceKm" class="form-label fw-semibold text-navy">Est. Distance (KM)</label>
+                                    <input type="number" class="form-control" id="distanceKm" value="80" min="10" max="1000">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="maxBudget" class="form-label fw-semibold text-navy">Max Budget (₹)</label>
+                                <input type="number" class="form-control" id="maxBudget" value="800" step="50">
+                            </div>
+
+                            <button type="button" class="btn btn-primary btn-lg rounded-3 fw-bold w-100 py-3" onclick="getAiRecommendation()">
+                                <i class="bi bi-cpu me-2"></i> Get AI Recommendation
+                            </button>
+                        </form>
+
+                        <div id="aiRecommendationResult" class="mt-4 p-3 bg-light rounded-3 d-none border">
+                            <h6 class="fw-bold text-indigo mb-2"><i class="bi bi-check-circle-fill me-2"></i> AI Recommendation Result</h6>
+                            <div id="aiBikeName" class="fs-5 fw-bold text-navy"></div>
+                            <div id="aiReason" class="small text-muted mt-1 mb-2"></div>
+                            <div class="badge bg-success font-monospace" id="aiPriceTag"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Card: Spring AI Support Chatbot -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 rounded-4 h-100">
+                    <div class="card-header bg-white py-3 border-bottom border-light">
+                        <h5 class="fw-bold text-navy mb-0"><i class="bi bi-chat-dots me-2 text-cyan"></i> Instant AI Policy & FAQ Assistant</h5>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div id="chatHistory" class="p-3 bg-light rounded-3 mb-3 font-sans small overflow-auto" style="max-height: 280px; min-height: 200px;">
+                            <div class="p-2.5 bg-white rounded-3 shadow-xs mb-2 border">
+                                <strong class="text-indigo"><i class="bi bi-robot me-1"></i> Spring AI Assistant:</strong>
+                                <div>Hi! Ask me anything about Driving License rules, extra KM charges, late fees, or payment verification!</div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="userQuery" placeholder="Ask AI: e.g. What is the extra KM charge?" onkeypress="if(event.key==='Enter') askAiFaq();">
+                            <button class="btn btn-primary px-4" type="button" onclick="askAiFaq()"><i class="bi bi-send-fill"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getAiRecommendation() {
+            const hours = document.getElementById('hours').value;
+            const distanceKm = document.getElementById('distanceKm').value;
+            const tripType = document.getElementById('tripType').value;
+            const maxBudget = document.getElementById('maxBudget').value;
+
+            fetch('/ai/recommend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ hours, distanceKm, tripType, maxBudget })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const resDiv = document.getElementById('aiRecommendationResult');
+                resDiv.classList.remove('d-none');
+                if (data.recommendedBike) {
+                    document.getElementById('aiBikeName').innerText = data.recommendedBike.brand + ' ' + data.recommendedBike.model;
+                    document.getElementById('aiReason').innerText = data.aiRecommendationReason;
+                    document.getElementById('aiPriceTag').innerText = 'Base Price: ₹' + data.estimatedBaseCharge + ' (Included: ' + data.includedDistance + ' KM)';
+                } else {
+                    document.getElementById('aiBikeName').innerText = 'No exact bike under budget';
+                    document.getElementById('aiReason').innerText = 'Please increase your maximum budget limit.';
+                    document.getElementById('aiPriceTag').innerText = '';
+                }
+            });
+        }
+
+        function askAiFaq() {
+            const input = document.getElementById('userQuery');
+            const query = input.value.trim();
+            if (!query) return;
+
+            const chatHistory = document.getElementById('chatHistory');
+            chatHistory.innerHTML += `
+                <div class="p-2.5 bg-indigo bg-opacity-10 text-indigo rounded-3 shadow-xs mb-2 border text-end">
+                    <strong>You:</strong> <div>${query}</div>
+                </div>
+            `;
+            input.value = '';
+
+            fetch('/ai/faq', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ query })
+            })
+            .then(res => res.json())
+            .then(data => {
+                chatHistory.innerHTML += `
+                    <div class="p-2.5 bg-white rounded-3 shadow-xs mb-2 border">
+                        <strong class="text-indigo"><i class="bi bi-robot me-1"></i> Spring AI Assistant:</strong>
+                        <div>${data.answer}</div>
+                    </div>
+                `;
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

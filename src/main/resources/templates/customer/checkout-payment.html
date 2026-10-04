@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>RideSmart | Checkout Payment</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container py-5 max-w-2xl">
+        <div class="card-custom p-4 p-md-5 border">
+            <div class="text-center mb-4">
+                <span class="eyebrow-badge mb-2">
+                    <i class="bi bi-shield-lock-fill"></i> PAYMENT CHECKOUT
+                </span>
+                <h2 class="hero-title-dark fs-2 mb-1">Select Payment Method</h2>
+                <p class="hero-subtitle-dark fs-6">Complete your payment for booking <strong class="font-monospace text-indigo" th:text="${booking.bookingReference}">BK-XXXXXX</strong></p>
+            </div>
+
+            <!-- Amount Summary Card -->
+            <div class="p-3 bg-light rounded-3 border mb-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="tiny text-muted d-block fw-semibold">AMOUNT PAYABLE</span>
+                    <h3 class="fw-bold text-indigo mb-0">₹<span th:text="${#numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">500</span></h3>
+                </div>
+                <span class="badge bg-indigo-subtle text-indigo px-3 py-2 rounded-pill font-monospace fw-bold">12H Base Plan (80 KM)</span>
+            </div>
+
+            <form th:action="@{/customer/payments/process}" method="post">
+                <input type="hidden" name="bookingId" th:value="${booking.id}">
+
+                <!-- Payment Method Selection -->
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-dark mb-2">Choose Payment Option *</label>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="paymentMethod" id="payUPI" value="UPI" checked onclick="togglePayMethod('UPI')">
+                            <label class="btn btn-outline-indigo w-100 py-3 d-flex flex-column align-items-center" for="payUPI">
+                                <i class="bi bi-qr-code-scan fs-2 mb-1"></i>
+                                <span class="fw-bold">UPI / QR Code</span>
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="paymentMethod" id="payCash" value="CASH" onclick="togglePayMethod('CASH')">
+                            <label class="btn btn-outline-indigo w-100 py-3 d-flex flex-column align-items-center" for="payCash">
+                                <i class="bi bi-cash-stack fs-2 mb-1"></i>
+                                <span class="fw-bold">Cash at Hub</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPI Details Panel -->
+                <div id="upiPanel" class="p-4 bg-light rounded-3 border mb-4">
+                    <h6 class="fw-bold text-navy mb-3"><i class="bi bi-qr-code text-indigo me-2"></i> Pay via UPI QR or UPI ID</h6>
+                    
+                    <div class="text-center mb-3">
+                        <div class="p-3 bg-white d-inline-block rounded-3 border shadow-sm mb-2">
+                            <img th:src="${qrCodeUrl}" alt="Scan QR Code to Pay" class="img-fluid rounded-2" style="max-width: 160px; max-height: 160px;">
+                        </div>
+                        <div class="small fw-bold text-dark" th:text="${'UPI ID: ' + upiId}">UPI ID: ridesmart@upi</div>
+                        <div class="tiny text-muted" th:text="${'UPI Number: ' + upiNumber}">UPI Number: 9876543210</div>
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label small fw-semibold text-dark">UPI Transaction Reference / UTR Number (Optional)</label>
+                        <input type="text" name="transactionRef" class="form-control form-control-custom" placeholder="e.g. 423456789012">
+                    </div>
+                </div>
+
+                <!-- Cash Notice Panel -->
+                <div id="cashPanel" class="p-4 bg-light rounded-3 border mb-4 d-none">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-info-circle-fill text-warning fs-2"></i>
+                        <div>
+                            <h6 class="fw-bold text-navy mb-1">Cash Collection at Pickup Hub</h6>
+                            <p class="small text-muted mb-0">Your booking will be confirmed with status <strong class="text-dark">Cash Pending</strong>. Please pay ₹<span th:text="${#numbers.formatDecimal(booking.estimatedTotalAmount, 1, 'COMMA', 0, 'POINT')}">500</span> in cash to the RideSmart hub operator during vehicle handover.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6">
+                    <i class="bi bi-check-circle-fill me-2"></i> Submit Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePayMethod(method) {
+            const upi = document.getElementById('upiPanel');
+            const cash = document.getElementById('cashPanel');
+            if (method === 'CASH') {
+                upi.classList.add('d-none');
+                cash.classList.remove('d-none');
+            } else {
+                upi.classList.remove('d-none');
+                cash.classList.add('d-none');
+            }
+        }
+    </script>
+
+</div>
+</body>
+</html>
