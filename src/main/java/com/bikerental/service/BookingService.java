@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.bikerental.kafka.BookingEventPublisher;
+
 @Service
 public class BookingService {
 
@@ -17,13 +19,15 @@ public class BookingService {
     private final CustomerRepository customerRepository;
     private final NotificationService notificationService;
     private final AuditService auditService;
+    private final BookingEventPublisher bookingEventPublisher;
 
-    public BookingService(BookingRepository bookingRepository, BikeRepository bikeRepository, CustomerRepository customerRepository, NotificationService notificationService, AuditService auditService) {
+    public BookingService(BookingRepository bookingRepository, BikeRepository bikeRepository, CustomerRepository customerRepository, NotificationService notificationService, AuditService auditService, BookingEventPublisher bookingEventPublisher) {
         this.bookingRepository = bookingRepository;
         this.bikeRepository = bikeRepository;
         this.customerRepository = customerRepository;
         this.notificationService = notificationService;
         this.auditService = auditService;
+        this.bookingEventPublisher = bookingEventPublisher;
     }
 
     @Transactional
@@ -62,6 +66,13 @@ public class BookingService {
                 .build();
 
         Booking savedBooking = bookingRepository.save(booking);
+
+        bookingEventPublisher.publishBookingCreatedEvent(
+                savedBooking.getId(),
+                savedBooking.getBookingReference(),
+                customer.getUser().getEmail(),
+                bike.getBrand() + " " + bike.getModel()
+        );
 
         notificationService.sendAdminBroadcast(
                 "New Booking Request",
