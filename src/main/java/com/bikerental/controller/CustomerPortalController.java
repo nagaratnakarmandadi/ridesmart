@@ -253,6 +253,9 @@ public class CustomerPortalController {
             paymentRepository.save(payment);
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", "Payment submission failed: This UTR reference number (" + txRef + ") has already been submitted!");
+            if (paymentType == PaymentType.FINAL_BALANCE) {
+                return "redirect:/customer/payments/checkout-balance/" + bookingId;
+            }
             return "redirect:/customer/payments/checkout/" + bookingId;
         }
 

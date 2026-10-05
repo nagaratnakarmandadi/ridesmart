@@ -1,78 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
 <head>
-    <title>RideSmart | Create Account</title>
+    <title>RideSmart | Customer Sign Up & Registration</title>
 </head>
 <body>
 <div th:fragment="content">
 
-    <div class="container py-5 max-w-2xl">
-        <div class="card-custom p-4 p-md-5">
-            <div class="text-center mb-4">
-                <span class="badge bg-indigo-subtle text-indigo px-3 py-1 rounded-pill fw-bold mb-2 small">
-                    <i class="bi bi-person-plus-fill me-1"></i> CUSTOMER REGISTRATION
-                </span>
-                <h3 class="fw-bold text-navy mb-1 fs-2">Create Your RideSmart Account</h3>
-                <p class="text-muted small">Register to browse, book, and manage your bike rentals.</p>
-            </div>
+    <div class="py-5" style="background: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%); min-height: 85vh;">
+        <div class="container py-4">
+            <div class="row g-0 rounded-4 overflow-hidden shadow-lg border-0 bg-white" style="box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12) !important;">
+                
+                <!-- Left Column: Hero Brand Banner -->
+                <div class="col-lg-5 text-white p-4 p-md-5 d-flex flex-column justify-content-between" 
+                     style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #312E81 100%);">
+                    <div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-warning text-dark fw-bold rounded-3 px-3 py-2 fs-4 me-2 shadow-sm">
+                                <i class="bi bi-bicycle"></i>
+                            </div>
+                            <span class="fs-3 fw-bold text-white tracking-tight">Ride<span class="text-warning">Smart</span></span>
+                        </div>
+                        <h2 class="fw-bold text-white mb-3 display-6">Join RideSmart Today</h2>
+                        <p class="text-white-50 lead fs-6 mb-4">Create your account to unlock instant bike bookings, 15-minute temporary holds, and verified fleet access across all rental hubs.</p>
+                        
+                        <div class="vstack gap-3 mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-indigo-subtle text-warning p-2 rounded-circle me-3">
+                                    <i class="bi bi-person-bounding-box fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-white">Digital KYC & Verification</div>
+                                    <div class="small text-white-50">Upload Driving License & identity once for instant approval.</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-indigo-subtle text-warning p-2 rounded-circle me-3">
+                                    <i class="bi bi-ticket-perforated-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-white">Digital Tickets & Invoices</div>
+                                    <div class="small text-white-50">Download itemized PDF receipts and manage rental history.</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-indigo-subtle text-warning p-2 rounded-circle me-3">
+                                    <i class="bi bi-shield-lock-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-white">Transparent Pricing Engine</div>
+                                    <div class="small text-white-50">Base ₹500 for 12H / 80 KM. Extra distance @ ₹3/KM.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <form th:action="@{/register}" th:object="${registrationForm}" method="post">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Full Name *</label>
-                        <input type="text" th:field="*{fullName}" class="form-control form-control-custom" placeholder="e.g. Rahul Sharma" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Mobile Number *</label>
-                        <input type="tel" th:field="*{mobileNumber}" class="form-control form-control-custom" placeholder="10-digit mobile" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Email Address *</label>
-                        <input type="email" th:field="*{email}" class="form-control form-control-custom" placeholder="name@example.com" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Password *</label>
-                        <input type="password" th:field="*{password}" class="form-control form-control-custom" placeholder="Minimum 6 chars" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Date of Birth *</label>
-                        <input type="date" th:field="*{dateOfBirth}" class="form-control form-control-custom" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Emergency Contact Number *</label>
-                        <input type="tel" th:field="*{emergencyContact}" class="form-control form-control-custom" placeholder="Emergency relative contact" required>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold text-dark">Residential Address *</label>
-                        <input type="text" th:field="*{address}" class="form-control form-control-custom" placeholder="Street address, Apartment/House No" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">City *</label>
-                        <input type="text" th:field="*{city}" class="form-control form-control-custom" placeholder="City" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">State *</label>
-                        <input type="text" th:field="*{state}" class="form-control form-control-custom" placeholder="State" required>
-                    </div>
-                    
-                    <div class="col-12 mt-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                            <label class="form-check-label small text-muted" for="termsCheck">
-                                I agree to the <a th:href="@{/terms}" target="_blank" class="text-indigo text-decoration-none fw-semibold">RideSmart Terms & Conditions</a> and <a th:href="@{/privacy}" target="_blank" class="text-indigo text-decoration-none fw-semibold">Privacy Policy</a>.
-                            </label>
+                    <div class="pt-4 border-top border-secondary border-opacity-50">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-shield-check text-warning fs-4 me-2"></i>
+                                <span class="small fw-semibold text-white">100% Secure Account Privacy</span>
+                            </div>
+                            <span class="badge bg-warning text-dark font-monospace px-3 py-1.5 rounded-pill fw-bold">ROLE_CUSTOMER</span>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6 mt-4 mb-3">
-                    <i class="bi bi-person-check-fill me-2"></i> Create Account
-                </button>
-            </form>
+                <!-- Right Column: Registration Form -->
+                <div class="col-lg-7 p-4 p-md-5 bg-white d-flex flex-column justify-content-center">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-indigo bg-opacity-10 text-indigo px-3 py-1.5 rounded-pill fw-bold small">
+                                <i class="bi bi-person-plus-fill me-1"></i> NEW CUSTOMER REGISTRATION
+                            </span>
+                            <span class="text-muted small">Step 1 of 2</span>
+                        </div>
+                        <h3 class="fw-bold text-navy display-6 fs-3 mb-1">Create Your Account</h3>
+                        <p class="text-muted small">Fill in your basic details below to register as a RideSmart Customer.</p>
+                    </div>
 
-            <div class="text-center mt-3">
-                <span class="text-muted small">Already have an account? </span>
-                <a th:href="@{/login}" class="text-indigo text-decoration-none fw-bold">Log In</a>
+                    <!-- Registration Form -->
+                    <form th:action="@{/register}" th:object="${registrationForm}" method="post">
+                        
+                        <!-- Section 1: Account & Credentials -->
+                        <div class="p-3 bg-light rounded-4 border mb-3">
+                            <h6 class="fw-bold text-navy mb-3"><i class="bi bi-person-vcard text-indigo me-2"></i> Personal & Account Info</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Full Name <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white text-muted"><i class="bi bi-person-fill"></i></span>
+                                        <input type="text" th:field="*{fullName}" class="form-control fs-6" placeholder="e.g. Rahul Sharma" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Mobile Number <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white text-muted"><i class="bi bi-telephone-fill"></i></span>
+                                        <input type="tel" th:field="*{mobileNumber}" class="form-control fs-6" placeholder="10-digit mobile" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Email Address <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white text-muted"><i class="bi bi-envelope-fill"></i></span>
+                                        <input type="email" th:field="*{email}" class="form-control fs-6" placeholder="name@example.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Password <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white text-muted"><i class="bi bi-lock-fill"></i></span>
+                                        <input type="password" th:field="*{password}" class="form-control fs-6" placeholder="Minimum 6 characters" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Identity & Emergency Contact -->
+                        <div class="p-3 bg-light rounded-4 border mb-3">
+                            <h6 class="fw-bold text-navy mb-3"><i class="bi bi-shield-heart text-indigo me-2"></i> Date of Birth & Emergency Contact</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Date of Birth <span class="text-danger">*</span></label>
+                                    <input type="date" th:field="*{dateOfBirth}" class="form-control fs-6" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">Emergency Contact Number <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white text-muted"><i class="bi bi-telephone-plus-fill"></i></span>
+                                        <input type="tel" th:field="*{emergencyContact}" class="form-control fs-6" placeholder="Family member contact" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Residential Address -->
+                        <div class="p-3 bg-light rounded-4 border mb-3">
+                            <h6 class="fw-bold text-navy mb-3"><i class="bi bi-geo-alt-fill text-indigo me-2"></i> Residential Address</h6>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-navy">Full Address <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{address}" class="form-control fs-6" placeholder="Street address, Flat / House No" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">City <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{city}" class="form-control fs-6" placeholder="City" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-navy">State <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{state}" class="form-control fs-6" placeholder="State" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required checked>
+                                <label class="form-check-label small text-muted" for="termsCheck">
+                                    I agree to the <a th:href="@{/terms}" target="_blank" class="text-indigo text-decoration-none fw-bold">RideSmart Terms of Service</a> and <a th:href="@{/privacy}" target="_blank" class="text-indigo text-decoration-none fw-bold">Privacy Policy</a>.
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-3 fw-bold fs-6 rounded-3 shadow-sm mb-3" style="background: linear-gradient(135deg, #312E81 0%, #1E293B 100%);">
+                            <i class="bi bi-person-check-fill me-2"></i> Complete Account Registration
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-2 pt-2 border-top border-light">
+                        <span class="text-muted small">Already registered? </span>
+                        <a th:href="@{/login}" class="text-indigo text-decoration-none fw-bold ms-1">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Existing Account
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -6,21 +6,23 @@
 <body>
 <div th:fragment="content">
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Hero Section with 3D Motorcycle Showcase -->
+    <section class="hero-section position-relative overflow-hidden">
         <div class="container position-relative" style="z-index: 2;">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
+            <div class="row align-items-center g-4">
+                
+                <!-- Left Hero Copy & Actions (40% width) -->
+                <div class="col-lg-5">
                     <span class="badge bg-indigo-subtle text-cyan border border-info mb-3 px-3 py-2 rounded-pill fw-semibold">
-                        <i class="bi bi-scooter me-1"></i> RIDESMART PLATFORM
+                        <i class="bi bi-box-seam me-1"></i> RIDESMART 3D SHOWROOM
                     </span>
-                    <h1 class="hero-title text-white fw-bold">Premium Bike Rentals, <br><span>Made Simple</span></h1>
-                    <p class="hero-subtitle">Discover available two-wheelers, transparent pricing, verified customer checks, and real-time GPS fleet tracking.</p>
+                    <h1 class="hero-title text-white fw-bold">Ride The Extraordinary, <br><span>Smarter Rentals</span></h1>
+                    <p class="hero-subtitle">Experience our premium fleet in photorealistic 3D. Explore 360° details, check real-time availability, and enjoy transparent pricing.</p>
+                    
                     <div class="d-flex flex-wrap gap-3 mb-4">
-                        <a th:href="@{/bikes}" class="btn btn-indigo btn-lg px-4 py-3"><i class="bi bi-grid-fill me-2"></i> Explore Fleet</a>
-                        <a th:href="@{/about}" class="btn btn-outline-custom text-white border-white-50 btn-lg px-4 py-3"><i class="bi bi-play-circle me-2"></i> How It Works</a>
+                        <a th:href="@{/3d-showroom}" class="btn btn-cyan btn-lg px-4 py-3 text-white fw-bold shadow"><i class="bi bi-box-seam me-2"></i> Enter 3D Garage</a>
+                        <a th:href="@{/bikes}" class="btn btn-outline-custom text-white border-white-50 btn-lg px-4 py-3"><i class="bi bi-grid-fill me-2"></i> Browse Fleet</a>
                         
-                        <!-- Dashboard Quick Access CTA Buttons on Homepage -->
                         <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/customer/dashboard}" class="btn btn-warning btn-lg px-4 py-3 fw-bold text-dark shadow-sm">
                             <i class="bi bi-speedometer2 me-2"></i> My Dashboard
                         </a>
@@ -28,6 +30,7 @@
                             <i class="bi bi-shield-lock me-2"></i> Owner Dashboard
                         </a>
                     </div>
+                    
                     <div class="d-flex align-items-center gap-4 text-white-50 small">
                         <div><i class="bi bi-shield-check text-cyan me-1 fs-5"></i> 100% Verified Fleet</div>
                         <div><i class="bi bi-geo-alt text-cyan me-1 fs-5"></i> Live GPS Tracking</div>
@@ -35,42 +38,38 @@
                     </div>
                 </div>
 
-                <!-- Booking Widget Card -->
-                <div class="col-lg-6">
-                    <div class="hero-booking-card">
-                        <h4 class="fw-bold mb-3"><i class="bi bi-calendar-check text-indigo me-2"></i> Quick Booking Widget</h4>
-                        <form th:action="@{/bikes}" method="get">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <label class="form-label small fw-semibold text-muted">Select Location</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light"><i class="bi bi-geo-alt text-danger"></i></span>
-                                        <select class="form-select form-control-custom">
-                                            <option selected>Hitech City Hub - Hyderabad</option>
-                                            <option>Gachibowli Station - Hyderabad</option>
-                                            <option>Kukatpally Depot - Hyderabad</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">Pickup Datetime</label>
-                                    <input type="datetime-local" class="form-control form-control-custom" name="pickupDateTime" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-semibold text-muted">Expected Return Datetime</label>
-                                    <input type="datetime-local" class="form-control form-control-custom" name="returnDateTime" required>
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <button type="submit" class="btn btn-indigo w-100 py-3 fw-bold fs-6">
-                                        <i class="bi bi-search me-2"></i> Find Available Bikes
-                                    </button>
-                                </div>
+                <!-- Right 3D Motorcycle Canvas Showcase (60% width) -->
+                <div class="col-lg-7">
+                    <div class="position-relative rounded-4 overflow-hidden border border-slate-700 shadow-2xl bg-slate-900" style="height: 460px; background: radial-gradient(circle at 50% 40%, #1E1B4B 0%, #0F172A 80%);">
+                        
+                        <!-- 3D Canvas -->
+                        <div id="indexHero3DContainer" class="w-100 h-100 position-relative">
+                            <div id="threeLoaderProgress" class="position-absolute top-50 start-50 translate-middle text-center" style="z-index: 10;">
+                                <div class="spinner-border text-cyan mb-2" role="status"></div>
+                                <div class="tiny text-cyan fw-bold">Loading 3D Experience...</div>
                             </div>
-                        </form>
+                        </div>
+
+                        <!-- 3D Interaction Control Overlay -->
+                        <div class="position-absolute bottom-0 start-0 w-100 p-3 d-flex align-items-center justify-content-between bg-dark bg-opacity-75 backdrop-blur border-top border-slate-800" style="z-index: 15;">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-indigo text-white tiny fw-bold"><i class="bi bi-arrows-move me-1"></i> 360° Interactive</span>
+                                <span class="tiny text-slate-300 d-none d-sm-inline">Drag to rotate • Scroll to zoom</span>
+                            </div>
+                            <div class="d-flex gap-1" id="indexHeroColorPicker">
+                                <button type="button" class="btn-color-dot btn-sm active" data-color="BLACK" style="width: 22px; height: 22px; background: #18181B;" title="Matte Black"></button>
+                                <button type="button" class="btn-color-dot btn-sm" data-color="RED" style="width: 22px; height: 22px; background: #DC2626;" title="Racing Red"></button>
+                                <button type="button" class="btn-color-dot btn-sm" data-color="WHITE" style="width: 22px; height: 22px; background: #F8FAFC;" title="Pearl White"></button>
+                                <button type="button" class="btn-color-dot btn-sm" data-color="BLUE" style="width: 22px; height: 22px; background: #1E3A8A;" title="Midnight Blue"></button>
+                            </div>
+                            <a th:href="@{/3d-showroom}" class="btn btn-sm btn-indigo text-white fw-bold">Full 3D Showroom <i class="bi bi-arrow-right"></i></a>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
+    </section>
     <!-- Dashboard Quick Access Banner for Authenticated Users -->
     <div sec:authorize="isAuthenticated()" class="bg-indigo-subtle border-bottom py-3">
         <div class="container">
@@ -289,6 +288,36 @@
             </div>
         </div>
     </section>
+
+    <!-- Required 3D Libraries & Engine Scripts for Hero Showcase -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script th:src="@{/js/3d/OrbitControls.js}"></script>
+    
+    <script th:src="@{/js/3d/PerformanceManager.js}"></script>
+    <script th:src="@{/js/3d/MaterialController.js}"></script>
+    <script th:src="@{/js/3d/CameraController.js}"></script>
+    <script th:src="@{/js/3d/HotspotManager.js}"></script>
+    <script th:src="@{/js/3d/BikeModelBuilder.js}"></script>
+    <script th:src="@{/js/3d/ThreeBikeEngine.js}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const indexHeroEngine = new window.ThreeBikeEngine({
+                containerId: 'indexHero3DContainer',
+                fallbackImgUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800'
+            });
+
+            const heroColorButtons = document.querySelectorAll('#indexHeroColorPicker button');
+            heroColorButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    heroColorButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const colorKey = this.getAttribute('data-color');
+                    indexHeroEngine.setBodyColor(colorKey);
+                });
+            });
+        });
+    </script>
 
 </div>
 </body>

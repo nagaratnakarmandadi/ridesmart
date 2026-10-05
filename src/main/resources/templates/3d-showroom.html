@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>3D Interactive Motorcycle Showroom - RideSmart</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <!-- 3D Showroom Main Wrapper -->
+    <div class="bg-dark text-white min-vh-100 position-relative overflow-hidden" style="background: radial-gradient(circle at 50% 30%, #1E1B4B 0%, #0F172A 70%);">
+
+        <!-- Top Header Overlay -->
+        <div class="position-absolute top-0 start-0 w-100 p-4 d-flex justify-content-between align-items-center" style="z-index: 20;">
+            <div>
+                <span class="badge bg-indigo text-white fw-bold py-2 px-3 mb-2 rounded-pill shadow">
+                    <i class="bi bi-box-seam me-1"></i> INTERACTIVE 3D SHOWROOM
+                </span>
+                <h1 class="h3 fw-bold text-white mb-0" th:text="${featuredBike != null ? featuredBike.brand + ' ' + featuredBike.model : 'RideSmart RS500 Urban'}">Royal Enfield Classic 350</h1>
+                <p class="small text-slate-400 mb-0">Drag to rotate 360° • Scroll to zoom • Select camera presets & colors</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/bikes}" class="btn btn-outline-light rounded-pill px-3">
+                    <i class="bi bi-grid me-1"></i> View Catalog
+                </a>
+                <a th:if="${featuredBike != null}" th:href="@{'/bikes/' + ${featuredBike.id}}" class="btn btn-indigo rounded-pill px-4 fw-bold">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Book This Bike
+                </a>
+            </div>
+        </div>
+
+        <!-- 3D WebGL Canvas Container -->
+        <div id="threeCanvasContainer" class="w-100 min-vh-100 position-relative">
+            <!-- Loading Progress Bar -->
+            <div id="threeLoaderProgress" class="position-absolute top-50 start-50 translate-middle text-center" style="z-index: 10;">
+                <div class="spinner-border text-cyan mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+                <div class="fw-bold text-cyan fs-5">Loading RideSmart 3D Experience...</div>
+                <div class="tiny text-slate-400">Initializing WebGL Photorealistic Renderer</div>
+            </div>
+
+            <!-- DOM Overlay Container for 3D Hotspots -->
+            <div id="hotspotOverlayContainer" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: 15;"></div>
+
+            <!-- Hotspot Information Overlay Card -->
+            <div id="hotspotInfoCard" class="position-absolute bottom-0 start-0 mb-4 ms-4" style="z-index: 25; width: 320px; display: none;"></div>
+        </div>
+
+        <!-- Bottom Controls Bar & Configurator Panel -->
+        <div class="position-absolute bottom-0 end-0 mb-4 me-4 p-3 rounded-4 glass-card-dark shadow-lg border border-slate-700" style="z-index: 25; width: 360px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px);">
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary pb-2">
+                <span class="fw-bold text-white small"><i class="bi bi-sliders text-cyan me-1"></i> BIKE CONFIGURATOR</span>
+                <span class="badge bg-success text-white tiny fw-bold" th:text="${featuredBike != null ? featuredBike.status : 'AVAILABLE'}">AVAILABLE</span>
+            </div>
+
+            <!-- Color Selector -->
+            <div class="mb-3">
+                <label class="tiny text-slate-400 fw-bold uppercase d-block mb-2">Select Paint Color</label>
+                <div class="d-flex gap-2" id="colorPickerContainer">
+                    <button type="button" class="btn-color-dot active" data-color="BLACK" style="background-color: #18181B;" title="Matte Black"></button>
+                    <button type="button" class="btn-color-dot" data-color="RED" style="background-color: #DC2626;" title="Racing Red"></button>
+                    <button type="button" class="btn-color-dot" data-color="WHITE" style="background-color: #F8FAFC;" title="Pearl White"></button>
+                    <button type="button" class="btn-color-dot" data-color="BLUE" style="background-color: #1E3A8A;" title="Midnight Blue"></button>
+                    <button type="button" class="btn-color-dot" data-color="GREY" style="background-color: #3F3F46;" title="Graphite Grey"></button>
+                </div>
+            </div>
+
+            <!-- Camera Angles -->
+            <div class="mb-3">
+                <label class="tiny text-slate-400 fw-bold uppercase d-block mb-2">Camera Presets</label>
+                <div class="d-flex flex-wrap gap-1" id="cameraPresetsContainer">
+                    <button type="button" class="btn btn-sm btn-outline-light tiny fw-bold rounded-3 active" data-preset="FRONT_34">3/4 Front</button>
+                    <button type="button" class="btn btn-sm btn-outline-light tiny fw-bold rounded-3" data-preset="SIDE_PROFILE">Side</button>
+                    <button type="button" class="btn btn-sm btn-outline-light tiny fw-bold rounded-3" data-preset="REAR_34">3/4 Rear</button>
+                    <button type="button" class="btn btn-sm btn-outline-light tiny fw-bold rounded-3" data-preset="COCKPIT">Cockpit</button>
+                    <button type="button" class="btn btn-sm btn-outline-light tiny fw-bold rounded-3" data-preset="ENGINE">Engine</button>
+                </div>
+            </div>
+
+            <!-- Price & Rent Action -->
+            <div class="bg-indigo-900 bg-opacity-50 p-3 rounded-3 border border-indigo-700 d-flex align-items-center justify-content-between mt-3">
+                <div>
+                    <div class="tiny text-slate-300">Rental Tariff</div>
+                    <div class="fs-4 fw-bold text-white" th:text="${'₹' + (featuredBike != null ? featuredBike.rentalPrice : 500)}">₹500</div>
+                    <div class="tiny text-cyan" th:text="${(featuredBike != null ? featuredBike.includedHours : 12) + ' Hrs • ' + (featuredBike != null ? featuredBike.includedKm : 80) + ' KM Included'}">12 Hrs • 80 KM Included</div>
+                </div>
+                <a th:if="${featuredBike != null}" th:href="@{'/bikes/' + ${featuredBike.id}}" class="btn btn-cyan text-white fw-bold shadow">
+                    <i class="bi bi-key me-1"></i> Rent Now
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Required 3D Libraries & Engine Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script th:src="@{/js/3d/OrbitControls.js}"></script>
+    
+    <!-- Custom 3D Engine Modules -->
+    <script th:src="@{/js/3d/PerformanceManager.js}"></script>
+    <script th:src="@{/js/3d/MaterialController.js}"></script>
+    <script th:src="@{/js/3d/CameraController.js}"></script>
+    <script th:src="@{/js/3d/HotspotManager.js}"></script>
+    <script th:src="@{/js/3d/BikeModelBuilder.js}"></script>
+    <script th:src="@{/js/3d/ThreeBikeEngine.js}"></script>
+
+    <!-- 3D Page Initialization Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const engine = new window.ThreeBikeEngine({
+                containerId: 'threeCanvasContainer',
+                fallbackImgUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800'
+            });
+
+            // Color Dot Event Handlers
+            const colorButtons = document.querySelectorAll('#colorPickerContainer .btn-color-dot');
+            colorButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    colorButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const colorKey = this.getAttribute('data-color');
+                    engine.setBodyColor(colorKey);
+                });
+            });
+
+            // Camera Preset Event Handlers
+            const cameraButtons = document.querySelectorAll('#cameraPresetsContainer button');
+            cameraButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    cameraButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const presetKey = this.getAttribute('data-preset');
+                    engine.setCameraPreset(presetKey);
+                });
+            });
+        });
+    </script>
+
+    <!-- Custom CSS for 3D Showroom Control Elements & Hotspot Pins -->
+    <style>
+        .btn-color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #3F3F46;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-color-dot:hover, .btn-color-dot.active {
+            transform: scale(1.18);
+            border-color: #38BDF8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+        }
+
+        .hotspot-pin-btn {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.9);
+            color: #FFFFFF;
+            border: 2px solid #38BDF8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 16;
+            transition: transform 0.2s ease;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+        }
+        .hotspot-pin-btn:hover {
+            transform: translate(-50%, -50%) scale(1.25);
+            background: #06B6D4;
+        }
+        .hotspot-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #38BDF8;
+            animation: pulse-ring 1.8s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        .pointer-events-none {
+            pointer-events: none;
+        }
+        .pointer-events-none button {
+            pointer-events: auto;
+        }
+    </style>
+
+</div>
+</body>
+</html>

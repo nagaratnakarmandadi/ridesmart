@@ -100,6 +100,14 @@ public class HomeController {
         return "bike-details";
     }
 
+    @GetMapping("/3d-showroom")
+    public String showroom3D(Model model) {
+        List<Bike> bikes = bikeRepository.findAll();
+        model.addAttribute("bikes", bikes);
+        model.addAttribute("featuredBike", bikes.isEmpty() ? null : bikes.get(0));
+        return "3d-showroom";
+    }
+
     @GetMapping({"/about", "/how-it-works"})
     public String about() {
         return "about";

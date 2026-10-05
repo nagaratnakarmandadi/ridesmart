@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Payment Verifications - RideSmart Admin</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            
+            <!-- Admin Sidebar Navigation -->
+            <div class="col-lg-2">
+                <div class="admin-sidebar rounded-3">
+                    <h6 class="text-uppercase text-slate-400 tiny fw-bold mb-3 px-2">Management</h6>
+                    <a th:href="@{/admin/dashboard}" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a th:href="@{/admin/bikes}" class="admin-nav-link"><i class="bi bi-grid-3x3-gap"></i> Fleet Inventory</a>
+                    <a th:href="@{/admin/bookings}" class="admin-nav-link"><i class="bi bi-journal-bookmark"></i> All Bookings</a>
+                    <a th:href="@{/admin/payments}" class="admin-nav-link active"><i class="bi bi-currency-rupee"></i> Payments & Verifications</a>
+                    <a th:href="@{/admin/payments/settings}" class="admin-nav-link"><i class="bi bi-qr-code-scan"></i> UPI & QR Settings</a>
+                    <a th:href="@{/admin/documents}" class="admin-nav-link"><i class="bi bi-card-checklist"></i> KYC Verification</a>
+                    <a th:href="@{/admin/rentals/active}" class="admin-nav-link"><i class="bi bi-broadcast"></i> Active Rentals</a>
+                    <a th:href="@{/admin/rentals/gps-monitor}" class="admin-nav-link"><i class="bi bi-geo-alt"></i> GPS Tracking</a>
+                    <a th:href="@{/admin/rentals/pricing}" class="admin-nav-link"><i class="bi bi-sliders"></i> Pricing Rules</a>
+                    <a th:href="@{/admin/reports}" class="admin-nav-link"><i class="bi bi-bar-chart"></i> Revenue Reports</a>
+                    <a th:href="@{/admin/audit-logs}" class="admin-nav-link"><i class="bi bi-shield-check"></i> Audit Logs</a>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-lg-10">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <span class="eyebrow-badge mb-2">
+                            <i class="bi bi-shield-check"></i> RECONCILIATION & VERIFICATION
+                        </span>
+                        <h2 class="hero-title-dark fs-3 mb-1">Customer Payments & UPI UTR Verification</h2>
+                        <p class="hero-subtitle-dark fs-6">Review submitted UTR transactions, approve verified bank deposits, or reject invalid payment submissions.</p>
+                    </div>
+                    <a th:href="@{/admin/payments/settings}" class="btn btn-outline-custom">
+                        <i class="bi bi-qr-code me-1"></i> Configure UPI / QR
+                    </a>
+                </div>
+
+                <!-- KPI Metric Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-indigo"><i class="bi bi-currency-rupee"></i></div>
+                            <div>
+                                <div class="kpi-value">₹<span th:text="${#numbers.formatDecimal(totalCollected, 1, 'COMMA', 0, 'POINT')}">0</span></div>
+                                <div class="kpi-label">Total Verified Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-amber"><i class="bi bi-clock-history"></i></div>
+                            <div>
+                                <div class="kpi-value" th:text="${pendingVerificationCount}">0</div>
+                                <div class="kpi-label">Pending UTR Verifications</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-icon kpi-blue"><i class="bi bi-receipt"></i></div>
+                            <div>
+                                <div class="kpi-value" th:text="${payments.size()}">0</div>
+                                <div class="kpi-label">Total Payment Transactions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Table Card -->
+                <div class="card-custom p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0"><i class="bi bi-list-check text-indigo me-2"></i> Payment Records</h5>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Pay Ref</th>
+                                    <th>Customer</th>
+                                    <th>Booking / Rental</th>
+                                    <th>Amount</th>
+                                    <th>Method / Type</th>
+                                    <th>UTR / Txn Ref</th>
+                                    <th>Status</th>
+                                    <th>Submitted Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="p : ${payments}">
+                                    <td>
+                                        <strong class="font-monospace text-indigo" th:text="${p.paymentReference}">PAY-123456</strong>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold" th:text="${p.customer.user.fullName}">Customer Name</div>
+                                        <div class="tiny text-muted" th:text="${p.customer.user.email}">customer@example.com</div>
+                                    </td>
+                                    <td>
+                                        <div th:if="${p.booking != null}">
+                                            <span class="badge bg-light text-dark font-monospace" th:text="${p.booking.bookingReference}">BK-REF</span>
+                                        </div>
+                                        <div th:if="${p.rental != null}" class="tiny text-muted">
+                                            Rental: <span class="font-monospace" th:text="${p.rental.rentalNumber}">RNT-REF</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong class="fs-6 text-navy" th:text="${'₹' + #numbers.formatDecimal(p.amount, 1, 'COMMA', 2, 'POINT')}">₹500.00</strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-indigo-subtle text-indigo fw-bold" th:text="${p.paymentMethod}">UPI</span>
+                                        <div class="tiny text-muted" th:text="${p.paymentType}">BOOKING_PAYMENT</div>
+                                    </td>
+                                    <td>
+                                        <code class="fw-bold text-dark px-2 py-1 bg-light rounded" th:text="${p.transactionRefNumber}">UTR-987654321</code>
+                                    </td>
+                                    <td>
+                                        <span class="badge-status"
+                                              th:classappend="${p.paymentStatus.name() == 'PAID' or p.paymentStatus.name() == 'VERIFIED' ? 'badge-available' : (p.paymentStatus.name() == 'REJECTED' or p.paymentStatus.name() == 'FAILED' ? 'badge-blocked' : 'badge-maintenance')}"
+                                              th:text="${p.paymentStatus}">SUBMITTED</span>
+                                    </td>
+                                    <td>
+                                        <span class="small text-muted" th:text="${#temporals.format(p.paymentTimestamp, 'dd MMM, hh:mm a')}">01 Sep, 10:00 AM</span>
+                                    </td>
+                                    <td>
+                                        <div th:if="${p.paymentStatus.name() == 'SUBMITTED' or p.paymentStatus.name() == 'PENDING' or p.paymentStatus.name() == 'CASH_PENDING'}" class="d-flex gap-1">
+                                            <form th:action="@{'/admin/payments/verify/' + ${p.id}}" method="post" class="d-inline">
+                                                <input type="hidden" name="status" value="PAID"/>
+                                                <button type="submit" class="btn btn-sm btn-success fw-bold" onclick="return confirm('Verify and approve this payment?')">
+                                                    <i class="bi bi-check-circle me-1"></i> Verify
+                                                </button>
+                                            </form>
+                                            <form th:action="@{'/admin/payments/verify/' + ${p.id}}" method="post" class="d-inline">
+                                                <input type="hidden" name="status" value="REJECTED"/>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger fw-bold" onclick="return confirm('Reject this payment reference?')">
+                                                    <i class="bi bi-x-circle me-1"></i> Reject
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <span th:unless="${p.paymentStatus.name() == 'SUBMITTED' or p.paymentStatus.name() == 'PENDING' or p.paymentStatus.name() == 'CASH_PENDING'}" class="small text-muted">
+                                            <i class="bi bi-lock me-1"></i> Processed
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${payments.isEmpty()}">
+                                    <td colspan="9" class="text-center py-4 text-muted">No payment records found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

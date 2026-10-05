@@ -76,6 +76,9 @@ public class Bike {
     @Column(length = 500)
     private String imageUrl;
 
+    @Column(length = 500)
+    private String model3dUrl;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -146,6 +149,8 @@ public class Bike {
     public void setLastServiceDate(LocalDate lastServiceDate) { this.lastServiceDate = lastServiceDate; }
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getModel3dUrl() { return model3dUrl; }
+    public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public LocalDateTime getCreatedAt() { return createdAt; }
@@ -183,6 +188,7 @@ public class Bike {
         public Builder lastServiceOdometer(Long odo) { bike.setLastServiceOdometer(odo); return this; }
         public Builder lastServiceDate(LocalDate d) { bike.setLastServiceDate(d); return this; }
         public Builder imageUrl(String url) { bike.setImageUrl(url); return this; }
+        public Builder model3dUrl(String model3dUrl) { bike.setModel3dUrl(model3dUrl); return this; }
         public Builder description(String desc) { bike.setDescription(desc); return this; }
 
         public Bike build() { return bike; }
