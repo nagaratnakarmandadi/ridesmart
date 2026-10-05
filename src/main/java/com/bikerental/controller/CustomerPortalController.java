@@ -272,8 +272,14 @@ public class CustomerPortalController {
 
     @GetMapping("/payments/success/{paymentId}")
     public String paymentSuccessPage(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long paymentId, Model model) {
+        Customer customer = getCustomer(userDetails);
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("Payment record not found"));
+
+        boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (!isAdmin && !payment.getCustomer().getId().equals(customer.getId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized payment receipt access.");
+        }
 
         model.addAttribute("payment", payment);
         model.addAttribute("booking", payment.getRental() != null ? payment.getRental().getBooking() : bookingRepository.findByCustomerIdOrderByCreatedAtDesc(payment.getCustomer().getId()).stream().findFirst().orElse(null));
