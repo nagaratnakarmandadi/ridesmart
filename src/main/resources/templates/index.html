@@ -6,22 +6,22 @@
 <body>
 <div th:fragment="content">
 
-    <!-- Hero Section with 3D Motorcycle Showcase -->
-    <section class="hero-section position-relative overflow-hidden">
-        <div class="container position-relative" style="z-index: 2;">
+    <!-- Hero Section with 3D Motorcycle Showcase (#F5F4EF Warm Off-White) -->
+    <section class="hero-section position-relative overflow-hidden py-5" style="background-color: var(--rs-background);">
+        <div class="container position-relative py-3" style="z-index: 2;">
             <div class="row align-items-center g-4">
                 
                 <!-- Left Hero Copy & Actions (40% width) -->
                 <div class="col-lg-5">
-                    <span class="badge bg-indigo-subtle text-cyan border border-info mb-3 px-3 py-2 rounded-pill fw-semibold">
+                    <span class="badge bg-opacity-10 text-emerald border mb-3 px-3 py-2 rounded-pill fw-semibold" style="background-color: var(--rs-mint); color: var(--rs-green); border-color: var(--rs-green) !important;">
                         <i class="bi bi-box-seam me-1"></i> RIDESMART 3D SHOWROOM
                     </span>
-                    <h1 class="hero-title text-white fw-bold">Ride The Extraordinary, <br><span>Smarter Rentals</span></h1>
-                    <p class="hero-subtitle">Experience our premium fleet in photorealistic 3D. Explore 360° details, check real-time availability, and enjoy transparent pricing.</p>
+                    <h1 class="hero-title text-dark fw-bold display-5 mb-3" style="color: var(--rs-text) !important;">RIDE WITHOUT LIMITS.<br><span style="color: var(--rs-green);">YOUR JOURNEY AHEAD.</span></h1>
+                    <p class="hero-subtitle lead fs-6 mb-4" style="color: var(--rs-muted) !important;">Experience our premium fleet in photorealistic 3D. Explore 360° details, check real-time availability, and enjoy transparent pricing with 15-minute booking holds.</p>
                     
                     <div class="d-flex flex-wrap gap-3 mb-4">
-                        <a th:href="@{/3d-showroom}" class="btn btn-cyan btn-lg px-4 py-3 text-white fw-bold shadow"><i class="bi bi-box-seam me-2"></i> Enter 3D Garage</a>
-                        <a th:href="@{/bikes}" class="btn btn-outline-custom text-white border-white-50 btn-lg px-4 py-3"><i class="bi bi-grid-fill me-2"></i> Browse Fleet</a>
+                        <a th:href="@{/bikes}" class="btn btn-rs-primary btn-lg px-4 py-3 shadow"><i class="bi bi-lightning-charge-fill me-2"></i> Book a Ride</a>
+                        <a th:href="@{/3d-showroom}" class="btn btn-rs-dark btn-lg px-4 py-3 shadow"><i class="bi bi-box-seam me-2"></i> View 3D Showroom</a>
                         
                         <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/customer/dashboard}" class="btn btn-warning btn-lg px-4 py-3 fw-bold text-dark shadow-sm">
                             <i class="bi bi-speedometer2 me-2"></i> My Dashboard
@@ -31,29 +31,29 @@
                         </a>
                     </div>
                     
-                    <div class="d-flex align-items-center gap-4 text-white-50 small">
-                        <div><i class="bi bi-shield-check text-cyan me-1 fs-5"></i> 100% Verified Fleet</div>
-                        <div><i class="bi bi-geo-alt text-cyan me-1 fs-5"></i> Live GPS Tracking</div>
-                        <div><i class="bi bi-clock-history text-cyan me-1 fs-5"></i> Flexible 12H Plans</div>
+                    <div class="d-flex align-items-center gap-4 text-muted small">
+                        <div><i class="bi bi-shield-check me-1 fs-5" style="color: var(--rs-green);"></i> 100% Verified Fleet</div>
+                        <div><i class="bi bi-geo-alt me-1 fs-5" style="color: var(--rs-green);"></i> Live GPS Tracking</div>
+                        <div><i class="bi bi-clock-history me-1 fs-5" style="color: var(--rs-green);"></i> Flexible 12H Plans</div>
                     </div>
                 </div>
 
                 <!-- Right 3D Motorcycle Canvas Showcase (60% width) -->
                 <div class="col-lg-7">
-                    <div class="position-relative rounded-4 overflow-hidden border border-slate-700 shadow-2xl bg-slate-900" style="height: 460px; background: radial-gradient(circle at 50% 40%, #1E1B4B 0%, #0F172A 80%);">
+                    <div class="position-relative rounded-4 overflow-hidden border shadow-2xl" style="height: 460px; background: radial-gradient(circle at 50% 40%, #12352B 0%, #101A16 80%); border-color: var(--rs-border) !important;">
                         
                         <!-- 3D Canvas -->
                         <div id="indexHero3DContainer" class="w-100 h-100 position-relative">
                             <div id="threeLoaderProgress" class="position-absolute top-50 start-50 translate-middle text-center" style="z-index: 10;">
-                                <div class="spinner-border text-cyan mb-2" role="status"></div>
-                                <div class="tiny text-cyan fw-bold">Loading 3D Experience...</div>
+                                <div class="spinner-border text-success mb-2" role="status"></div>
+                                <div class="tiny text-success fw-bold">Loading 3D Experience...</div>
                             </div>
                         </div>
 
                         <!-- 3D Interaction Control Overlay -->
-                        <div class="position-absolute bottom-0 start-0 w-100 p-3 d-flex align-items-center justify-content-between bg-dark bg-opacity-75 backdrop-blur border-top border-slate-800" style="z-index: 15;">
+                        <div class="position-absolute bottom-0 start-0 w-100 p-3 d-flex align-items-center justify-content-between bg-dark bg-opacity-75 backdrop-blur border-top border-secondary border-opacity-25" style="z-index: 15;">
                             <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-indigo text-white tiny fw-bold"><i class="bi bi-arrows-move me-1"></i> 360° Interactive</span>
+                                <span class="badge text-white tiny fw-bold" style="background-color: var(--rs-green);"><i class="bi bi-arrows-move me-1"></i> 360° Interactive</span>
                                 <span class="tiny text-slate-300 d-none d-sm-inline">Drag to rotate • Scroll to zoom</span>
                             </div>
                             <div class="d-flex gap-1" id="indexHeroColorPicker">
@@ -62,7 +62,7 @@
                                 <button type="button" class="btn-color-dot btn-sm" data-color="WHITE" style="width: 22px; height: 22px; background: #F8FAFC;" title="Pearl White"></button>
                                 <button type="button" class="btn-color-dot btn-sm" data-color="BLUE" style="width: 22px; height: 22px; background: #1E3A8A;" title="Midnight Blue"></button>
                             </div>
-                            <a th:href="@{/3d-showroom}" class="btn btn-sm btn-indigo text-white fw-bold">Full 3D Showroom <i class="bi bi-arrow-right"></i></a>
+                            <a th:href="@{/3d-showroom}" class="btn btn-sm btn-rs-dark text-white fw-bold">Full 3D Showroom <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -70,21 +70,22 @@
             </div>
         </div>
     </section>
+
     <!-- Dashboard Quick Access Banner for Authenticated Users -->
-    <div sec:authorize="isAuthenticated()" class="bg-indigo-subtle border-bottom py-3">
+    <div sec:authorize="isAuthenticated()" class="border-bottom py-3" style="background-color: var(--rs-mint); border-color: var(--rs-border) !important;">
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="rounded-circle bg-indigo text-white d-flex align-items-center justify-content-center p-3 fs-4" style="background-color: #4f46e5 !important;">
+                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center p-3 fs-4" style="background-color: var(--rs-green) !important;">
                         <i class="bi bi-speedometer2"></i>
                     </div>
                     <div>
-                        <h5 class="fw-bold mb-0 text-navy">Welcome Back, <span sec:authentication="name">User</span>!</h5>
+                        <h5 class="fw-bold mb-0 text-dark">Welcome Back, <span sec:authentication="name">User</span>!</h5>
                         <p class="text-muted small mb-0">Quickly access your active rentals, booking history, identity checks, or portal operations.</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/customer/dashboard}" class="btn btn-indigo px-4 py-2 fw-bold">
+                    <a sec:authorize="hasRole('CUSTOMER')" th:href="@{/customer/dashboard}" class="btn btn-rs-primary px-4 py-2 fw-bold">
                         <i class="bi bi-speedometer2 me-1"></i> Open Customer Dashboard
                     </a>
                     <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn btn-warning fw-bold text-dark px-4 py-2">
@@ -95,15 +96,15 @@
         </div>
     </div>
 
-    <!-- Popular Fleet Showcase -->
-    <section class="py-5 bg-light">
+    <!-- SECTION 2: Popular Fleet Showcase (#FFFFFF Pure White) -->
+    <section class="py-5 bg-white">
         <div class="container py-4">
             <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between mb-4">
                 <div>
-                    <h6 class="text-indigo text-uppercase fw-bold tracking-wider mb-1">Our Premium Fleet</h6>
-                    <h2 class="fw-bold mb-0">Popular Rental Bikes</h2>
+                    <h6 class="text-uppercase fw-bold tracking-wider mb-1" style="color: var(--rs-green);">Our Premium Fleet</h6>
+                    <h2 class="fw-bold mb-0 text-dark">Popular Rental Motorcycles</h2>
                 </div>
-                <a th:href="@{/bikes}" class="text-indigo fw-bold text-decoration-none mt-2 mt-md-0">
+                <a th:href="@{/bikes}" class="fw-bold text-decoration-none mt-2 mt-md-0" style="color: var(--rs-green);">
                     View All Bikes <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -122,20 +123,20 @@
                                 <span class="badge bg-light text-dark border px-2 py-1" th:text="${bike.fuelType}">Petrol</span>
                                 <span class="small text-muted"><i class="bi bi-star-fill text-warning me-1"></i> 4.9 (120+ rides)</span>
                             </div>
-                            <h5 class="fw-bold mb-1" th:text="${bike.brand + ' ' + bike.model}">Royal Enfield Classic 350</h5>
+                            <h5 class="fw-bold mb-1 text-dark" th:text="${bike.brand + ' ' + bike.model}">Royal Enfield Classic 350</h5>
                             <p class="small text-muted mb-3" th:text="${bike.variant != null ? bike.variant + ' • Reg: ' + bike.registrationNumber : 'Reg: ' + bike.registrationNumber}">Stealth Black</p>
 
                             <div class="border-top border-bottom py-2 my-2 d-flex justify-content-between small text-muted">
-                                <span><i class="bi bi-speedometer me-1 text-indigo"></i> <strong th:text="${bike.includedKm}">80</strong> KM Included</span>
-                                <span><i class="bi bi-clock me-1 text-indigo"></i> <strong th:text="${bike.includedHours}">12</strong> Hours</span>
+                                <span><i class="bi bi-speedometer me-1" style="color: var(--rs-green);"></i> <strong th:text="${bike.includedKm}">80</strong> KM Included</span>
+                                <span><i class="bi bi-clock me-1" style="color: var(--rs-green);"></i> <strong th:text="${bike.includedHours}">12</strong> Hours</span>
                             </div>
 
                             <div class="mt-auto pt-3 d-flex align-items-center justify-content-between">
                                 <div>
-                                    <span class="price-tag">₹<span th:text="${#numbers.formatDecimal(bike.rentalPrice, 1, 'COMMA', 0, 'POINT')}">500</span></span>
-                                    <span class="price-unit">/ 12 Hrs</span>
+                                    <span class="price-tag text-dark">₹<span th:text="${#numbers.formatDecimal(bike.rentalPrice, 1, 'COMMA', 0, 'POINT')}">500</span></span>
+                                    <span class="price-unit text-muted">/ 12 Hrs</span>
                                 </div>
-                                <a th:href="@{'/bikes/' + ${bike.id}}" class="btn btn-indigo px-3 py-2 btn-sm fw-semibold">
+                                <a th:href="@{'/bikes/' + ${bike.id}}" class="btn btn-rs-primary px-3 py-2 btn-sm fw-semibold">
                                     Book Ride <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
                             </div>
@@ -146,42 +147,133 @@
         </div>
     </section>
 
-    <!-- 4-Step How It Works -->
-    <section class="py-5 bg-white">
+    <!-- SECTION 3: Deep Forest Contrast Promotional Experience (#12352B) -->
+    <section class="py-5 text-white" style="background-color: var(--rs-forest);">
+        <div class="container py-4">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold text-dark" style="background-color: var(--rs-mint);">THE RIDESMART EXPERIENCE</span>
+                    <h2 class="display-5 fw-bold text-white mb-3">Designed For Freedom. Engineered For Safety.</h2>
+                    <p class="text-slate-300 lead fs-6 mb-4">RideSmart bridges physical motorcycle fleet rentals with intelligent IoT telemetry, instant digital payment verifications, and automated pricing engines.</p>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="p-3 rounded-3 bg-white bg-opacity-10 border border-white border-opacity-10">
+                                <h4 class="fw-bold text-white mb-1"><i class="bi bi-shield-check me-2" style="color: var(--rs-green-bright);"></i>100% Verified</h4>
+                                <p class="small text-slate-300 mb-0">Identity and document verification before every handover.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-3 rounded-3 bg-white bg-opacity-10 border border-white border-opacity-10">
+                                <h4 class="fw-bold text-white mb-1"><i class="bi bi-broadcast me-2" style="color: var(--rs-green-bright);"></i>Live GPS</h4>
+                                <p class="small text-slate-300 mb-0">Real-time location and speed telemetry for complete security.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800" alt="RideSmart Fleet" class="img-fluid rounded-4 shadow-2xl border border-white border-opacity-10">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Why RideSmart (#F5F4EF Warm Off-White) -->
+    <section class="py-5" style="background-color: var(--rs-background);">
         <div class="container py-4">
             <div class="text-center max-w-2xl mx-auto mb-5">
-                <h6 class="text-indigo text-uppercase fw-bold tracking-wider mb-1">Simple & Transparent</h6>
-                <h2 class="fw-bold">How RideSmart Works in 4 Steps</h2>
+                <h6 class="text-uppercase fw-bold tracking-wider mb-1" style="color: var(--rs-green);">Why Choose RideSmart</h6>
+                <h2 class="fw-bold text-dark">Built For Premium Mobility</h2>
             </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-4 h-100 border-0 shadow-sm rounded-4" style="background-color: var(--rs-white);">
+                        <div class="rounded-3 p-3 d-inline-flex align-items-center justify-content-center mb-3" style="background-color: var(--rs-mint); color: var(--rs-green); width: 56px; height: 56px;">
+                            <i class="bi bi-shield-check fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2 text-dark">01. Verified Bikes</h5>
+                        <p class="small text-muted mb-0">Every vehicle undergoes thorough pre-rental inspections and maintenance logging.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-4 h-100 border-0 shadow-sm rounded-4" style="background-color: var(--rs-white);">
+                        <div class="rounded-3 p-3 d-inline-flex align-items-center justify-content-center mb-3" style="background-color: var(--rs-mint); color: var(--rs-green); width: 56px; height: 56px;">
+                            <i class="bi bi-currency-rupee fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2 text-dark">02. Transparent Pricing</h5>
+                        <p class="small text-muted mb-0">Clear 12-hour tariffs with included 80 KM allowance and zero hidden surge fees.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-4 h-100 border-0 shadow-sm rounded-4" style="background-color: var(--rs-white);">
+                        <div class="rounded-3 p-3 d-inline-flex align-items-center justify-content-center mb-3" style="background-color: var(--rs-mint); color: var(--rs-green); width: 56px; height: 56px;">
+                            <i class="bi bi-qr-code-scan fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2 text-dark">03. Secure Payments</h5>
+                        <p class="small text-muted mb-0">Scan UPI QR codes, submit UTR reference numbers, and receive instant verifications.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-4 h-100 border-0 shadow-sm rounded-4" style="background-color: var(--rs-white);">
+                        <div class="rounded-3 p-3 d-inline-flex align-items-center justify-content-center mb-3" style="background-color: var(--rs-mint); color: var(--rs-green); width: 56px; height: 56px;">
+                            <i class="bi bi-geo-alt fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2 text-dark">04. Real-Time Tracking</h5>
+                        <p class="small text-muted mb-0">Track active rides, trip duration, speed telemetry, and digital tax invoices online.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- SECTION 5: How It Works Timeline (#DDF4EA Soft Mint) -->
+    <section class="py-5" style="background-color: var(--rs-mint);">
+        <div class="container py-4">
+            <div class="text-center max-w-2xl mx-auto mb-5">
+                <h6 class="text-uppercase fw-bold tracking-wider mb-1" style="color: var(--rs-green);">Seamless Rental Process</h6>
+                <h2 class="fw-bold text-dark">How RideSmart Works in 6 Steps</h2>
+            </div>
             <div class="row g-4 text-center">
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-icon-box mx-auto">
-                        <i class="bi bi-scooter fs-3"></i>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">01</div>
+                        <h6 class="fw-bold text-dark mb-1">Choose Bike</h6>
+                        <p class="tiny text-muted mb-0">Browse fleet or 3D showroom</p>
                     </div>
-                    <h5 class="fw-bold mb-2">1. Choose a Bike</h5>
-                    <p class="small text-muted">Select from our well-maintained fleet of scooters and cruisers suited for your journey.</p>
                 </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-icon-box mx-auto bg-cyan-light text-cyan">
-                        <i class="bi bi-calendar2-range fs-3"></i>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">02</div>
+                        <h6 class="fw-bold text-dark mb-1">Select Dates</h6>
+                        <p class="tiny text-muted mb-0">Pickup & return timestamps</p>
                     </div>
-                    <h5 class="fw-bold mb-2">2. Pick Dates</h5>
-                    <p class="small text-muted">Choose your rental start time and duration. Real-time pricing is calculated instantly.</p>
                 </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-icon-box mx-auto bg-emerald-light text-emerald">
-                        <i class="bi bi-card-checklist fs-3"></i>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">03</div>
+                        <h6 class="fw-bold text-dark mb-1">Book Hold</h6>
+                        <p class="tiny text-muted mb-0">15-minute lock on bike</p>
                     </div>
-                    <h5 class="fw-bold mb-2">3. Verify & Pay</h5>
-                    <p class="small text-muted">Upload your Driving License & Aadhaar once for instant digital verification & pay via Cash or UPI.</p>
                 </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-icon-box mx-auto bg-indigo-light text-indigo">
-                        <i class="bi bi-key fs-3"></i>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">04</div>
+                        <h6 class="fw-bold text-dark mb-1">UPI / Cash</h6>
+                        <p class="tiny text-muted mb-0">Submit UTR or Cash handover</p>
                     </div>
-                    <h5 class="fw-bold mb-2">4. Unlock & Ride</h5>
-                    <p class="small text-muted">Collect helmet, perform digital pre-inspection check, and enjoy your journey with GPS safety.</p>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">05</div>
+                        <h6 class="fw-bold text-dark mb-1">Handover & Ride</h6>
+                        <p class="tiny text-muted mb-0">Pre-inspection & GPS ride</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="bg-white p-3 rounded-4 shadow-sm h-100 border border-success border-opacity-25">
+                        <div class="fw-bold fs-4 mb-2" style="color: var(--rs-green);">06</div>
+                        <h6 class="fw-bold text-dark mb-1">Return & Invoice</h6>
+                        <p class="tiny text-muted mb-0">Odometer check & tax bill</p>
+                    </div>
                 </div>
             </div>
         </div>
